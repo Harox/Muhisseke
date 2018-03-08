@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.firedevz.sistemadegestaofinanceira.activity.EfectuarVendasActivity">
+
+
+    <include
+        layout="@layout/toolbar_vendas">
+
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:background="@drawable/curvo3"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtconta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/curvo_padrao"
+            android:text="@string/conta"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="#ffff" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <AutoCompleteTextView
+                android:id="@+id/edtNomeProdutoApgar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_style"
+                android:ems="10"
+                android:hint="@string/nome_do_produto"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/txtPrecoProduto"
+                android:layout_width="wrap_content"
+                android:background="@drawable/edit_text_style"
+                android:ems="10"
+                android:textStyle="bold"
+                android:textColor="#C42178"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="00,00MZN" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtQuantidade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/edit_text_style"
+                android:hint="Quantidade"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/btnAdicionarAconta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_style"
+                android:text="Adicionar" />
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtNomeProdutoConta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="@string/produto" />
+
+                <TextView
+                    android:id="@+id/txtValorProdutoConta"
+                    android:layout_width="match_parent"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:text="@string/pre_o" />
+
+                <TextView
+                    android:id="@+id/txtQuantidadeProdutoConta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:textStyle="bold"
+                    android:text="Qtd" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_lista_conta_cliente"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPagar"
+                android:layout_width="153dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/botao_pagar" />
+
+            <Button
+                android:id="@+id/btnFacturar"
+                android:layout_width="153dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/botao_facturar" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

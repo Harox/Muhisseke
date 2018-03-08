@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+    <tab
+        android:id="@+id/tab_menuPrincipal"
+        android:icon="@drawable/ic_home_black_24dp"
+        title="Menu"
+        barColorWhenSelected="#C42178" />
+    <tab
+        android:id="@+id/tab_oportunidades"
+        android:icon="@drawable/ic_opurtunidades"
+        title="Oportunidade"
+        barColorWhenSelected="#7B1FA2" />
+
+    <tab
+        android:id="@+id/tab_notificac"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        title="Notificações"
+        barColorWhenSelected="#FF9800" />
+</tabs>

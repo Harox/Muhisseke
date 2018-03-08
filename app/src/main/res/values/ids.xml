@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tab_menu" type="id">tab_menu</item>
+    <item name="tab_oportunidade" type="id">tab_oportunidade</item>
+    <item name="tab_notificacoes" type="id">tab_notificacoes</item>
+</resources>

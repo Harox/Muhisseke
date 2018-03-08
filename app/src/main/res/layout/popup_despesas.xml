@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="20dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtDescricaoDespesa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descrição" />
+
+    <EditText
+        android:id="@+id/edtNomeDespesaPopup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style"
+        android:ems="10"
+        android:hint="Ex: Agua,Energia"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/txtValorDespesa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valor da despesa" />
+
+    <EditText
+        android:id="@+id/edtValorDespesaPopup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style"
+        android:ems="10"
+        android:inputType="number" />
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtNomeDaconta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nome da Conta" />
+
+    <EditText
+        android:id="@+id/edtNomeDaConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style"
+        android:ems="10"
+        android:hint="Ex: BCI"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/txtSaldo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Saldo Existente" />
+
+    <EditText
+        android:id="@+id/edtSaldoConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style"
+        android:ems="10"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/txtTipoDeConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tipo de Conta" />
+
+    <Spinner
+        android:id="@+id/spnTipoConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style" />
+
+
+</LinearLayout>

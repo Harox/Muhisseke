@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+
+    <TextView
+        android:id="@+id/txtNomepopupConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nome" />
+
+    <EditText
+        android:id="@+id/edtNomePopupConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style"
+        android:ems="10"
+        android:hint="Ex: BCI"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/txtSaldoPopupConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Saldo" />
+
+    <EditText
+        android:id="@+id/edtSaldoPopupConta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/edit_text_style"
+        android:ems="10"
+        android:hint="Ex: 4000"
+        android:inputType="number" />
+
+
+</LinearLayout>
