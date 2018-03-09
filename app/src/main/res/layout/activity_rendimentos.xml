@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_margin="16dp"
     android:layout_gravity="center_horizontal|center_vertical"
-    tools:context="com.firedevz.sistemadegestaofinanceira.activity.RendimentosActivity">
+    tools:activity="com.firedevz.sistemadegestaofinanceira.activity.RendimentosActivity">
 
 
     <EditText

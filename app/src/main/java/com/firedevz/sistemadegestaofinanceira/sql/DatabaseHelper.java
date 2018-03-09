@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.firedevz.sistemadegestaofinanceira.modelo.Clientes;
 import com.firedevz.sistemadegestaofinanceira.modelo.ContaCliente;
@@ -878,10 +879,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Metodo apagar produto
-    public void apagarProduto(Produtos produtos) {
+    public void apagarProduto(int idProduto) {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        db.delete(TABELA_PRODUTO, COLUNA_ID_PRODUTO + " = ?", new String[]{String.valueOf(produtos.getId())});
+        db.delete(TABELA_PRODUTO, COLUNA_ID_PRODUTO + " = ?", new String[]{String.valueOf(idProduto)});
         db.close();
     }
 
@@ -1110,6 +1110,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         allSpinner = spinnerContent.toArray(allSpinner);
 
         return allSpinner;
+    }
+
+    public boolean produtoHaveStock(int produtoId){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABELA_PRODUTO + " WHERE " + COLUNA_QUANTIDADE_PRODUTO+">0 AND " + COLUNA_ID_PRODUTO +" = "+produtoId;
+        Log.d("tester__", query);
+        Cursor c = db.rawQuery(query, null);
+        return c.moveToFirst();
     }
 
 

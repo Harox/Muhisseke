@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,46 +27,48 @@ import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaClienteAdapter;
 import com.firedevz.sistemadegestaofinanceira.modelo.Clientes;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
+import com.github.tamir7.contacts.Contact;
+import com.github.tamir7.contacts.Contacts;
+import com.github.tamir7.contacts.Query;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityListaClientes extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class ActivityListaClientes extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
 
+    DatabaseHelper db = new DatabaseHelper(this);
+    Clientes clientes = new Clientes();
     private List<Clientes> listaCliente = new ArrayList<>();
     private ListaClienteAdapter listaClienteAdapter;
     private RecyclerView recyclerView;
     private Toolbar toolbarCliente;
-    private FloatingActionButton BtnAdicionarCliente,floatBDeleteCliente;
-
-    DatabaseHelper db = new DatabaseHelper(this);
-
-    Clientes clientes = new Clientes();
+    private FloatingActionButton BtnAdicionarCliente, floatBDeleteCliente;
+    private CursorAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_clientes);
 
+        Contacts.initialize(this);
+
         toolbarCliente = (Toolbar) findViewById(R.id.toolbarCliente);
         setSupportActionBar(toolbarCliente);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewClientes);
         BtnAdicionarCliente = (FloatingActionButton) findViewById(R.id.BtnAdicionarCliente);
-        floatBDeleteCliente= (FloatingActionButton) findViewById(R.id.floatBDeleteCliente);
+        floatBDeleteCliente = (FloatingActionButton) findViewById(R.id.floatBDeleteCliente);
 
-        listaClienteAdapter = new ListaClienteAdapter(this,listaCliente);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
-        recyclerView.setAdapter(listaClienteAdapter);
 
         listaClientes();
 
+        listaClienteAdapter = new ListaClienteAdapter(this, listaCliente);
+        recyclerView.setAdapter(listaClienteAdapter);
 
         BtnAdicionarCliente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,9 +78,7 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
                 View vi = li.inflate(R.layout.popup_add_cliente, null);
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ActivityListaClientes.this);
 
-
                 alertDialogBuilder.setView(vi);
-
 
                 final EditText edtNomeCliente = (EditText) vi.findViewById(R.id.edtNomeCliente);
                 final EditText edtTelefoneCliente = (EditText) vi.findViewById(R.id.edtTelefoneCliente);
@@ -94,19 +95,13 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
                         String emailCliente = edtEmailCliente.getText().toString();
                         String enderecoCliente = edtEnderecoCliente.getText().toString();
                         int nuitCliente = Integer.parseInt(edtNuitCliente.getText().toString());
-                        ;
-
-                        //String nome_conf = contas.getNomeConta()
-                        // if (validarFormulario()) {
-                        // Toast.makeText(activityListaProdutos.this, "Produto adicionado com Sucesso", Toast.LENGTH_LONG).show();
-                        if (db.addCliente(new Clientes(nomeCliente, telefoneCliente, emailCliente, enderecoCliente,nuitCliente))) {
+                        if (db.addCliente(new Clientes(nomeCliente, telefoneCliente, emailCliente, enderecoCliente, nuitCliente))) {
                             Toast.makeText(ActivityListaClientes.this, "Cliente adicionado com Sucesso", Toast.LENGTH_LONG).show();
                             listaClientes();
+
+                            listaClienteAdapter = new ListaClienteAdapter(ActivityListaClientes.this, listaCliente);
+                            recyclerView.setAdapter(listaClienteAdapter);
                         }
-//                        else {
-//                            // inicio.hideProgressDialog();
-//                            Toast.makeText(activityListaProdutos.this, "Preencha Todos os Campos obrigatorios", Toast.LENGTH_LONG).show();
-//                        }
 
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -114,20 +109,19 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
                         dialog.cancel();
                     }
                 });
-
-                // Criar O Alerta
                 AlertDialog alertDialog = alertDialogBuilder.create();
-
-                // Mostra o alerta
                 alertDialog.show();
-
-
-                //Alert Dialog End
-
             }
         });
 
-
+        final String[] from = new String[]{"cityName", "cityBla"};
+        final int[] to = new int[]{android.R.id.text1};
+        mAdapter = new SimpleCursorAdapter(this,
+                android.R.layout.simple_list_item_1,
+                null,
+                from,
+                to,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
     }
 
     @Override
@@ -137,8 +131,22 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
         searchView.setOnQueryTextListener(this);
-        return true;
+        searchView.setSuggestionsAdapter(mAdapter);
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                Query q = Contacts.getQuery();
+                q.hasPhoneNumber();
+                List<Contact> contacts = q.find();
+                return true;
+            }
 
+            @Override
+            public boolean onSuggestionClick(int position) {
+                return true;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -156,20 +164,18 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
     public boolean onQueryTextChange(String newText) {
         newText = newText.toLowerCase();
         ArrayList<Clientes> newList = new ArrayList<>();
-        for (Clientes clientes : listaCliente)
-        {
+        for (Clientes clientes : listaCliente) {
             String name = clientes.getNome().toLowerCase();
-            if(name.contains(newText)){
+            if (name.contains(newText)) {
                 newList.add(clientes);
             }
         }
-
         listaClienteAdapter.setFilter(newList);
         return true;
     }
 
     public void listaClientes() {
-
+        listaCliente = new ArrayList<>();
         Cursor dados = db.listaTodosClientes();
 
         if (dados.getCount() == 0) {
@@ -183,14 +189,9 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
                 int nuitClient = dados.getInt(5);
                 float estadoCliente = Float.parseFloat(dados.getString(6));
 
-                Clientes listaiten = new Clientes(nomeCliente, telefoneCliente, emailCliente,enderecoCliente,nuitClient,estadoCliente);
+                Clientes listaiten = new Clientes(nomeCliente, telefoneCliente, emailCliente, enderecoCliente, nuitClient, estadoCliente);
                 listaCliente.add(listaiten);
             }
         }
     }
-
-
-
-
-///Fim//////
 }

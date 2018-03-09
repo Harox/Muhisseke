@@ -4,17 +4,16 @@ package com.firedevz.sistemadegestaofinanceira.activity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +24,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaProdutosAdapter;
@@ -40,24 +38,20 @@ import java.util.List;
 
 public class activityListaProdutos extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
+    DatabaseHelper db = new DatabaseHelper(this);
+    Produtos produtos = new Produtos();
     private List<Produtos> listaProdutos = new ArrayList<>();
     private ListaProdutosAdapter listaProdutosAdapter;
     private ProcuraProdutosAdapter procuraProdutosAdapter;
     private ArrayAdapter<String> adpCategoria;
     private ArrayAdapter<String> adpUnidade;
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
     //*****************************
 
 
     //****************************
-
-
+    private RecyclerView recyclerView;
+    private Toolbar toolbar;
     private FloatingActionButton BtnAdicionarProdut, floatBDeleteProduto;
-
-    DatabaseHelper db = new DatabaseHelper(this);
-
-    Produtos produtos = new Produtos();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,24 +59,22 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
         setContentView(R.layout.activity_lista_produtos);
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_listaPro);
-        BtnAdicionarProdut = (FloatingActionButton) findViewById(R.id.BtnAdicionarProdut);
-        floatBDeleteProduto = (FloatingActionButton) findViewById(R.id.floatBDeleteProduto);
+        recyclerView = findViewById(R.id.recycle_listaPro);
+        BtnAdicionarProdut = findViewById(R.id.BtnAdicionarProdut);
+        floatBDeleteProduto = findViewById(R.id.floatBDeleteProduto);
 
+        listaProdutos();
         listaProdutosAdapter = new ListaProdutosAdapter(this, listaProdutos);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-
         recyclerView.setAdapter(listaProdutosAdapter);
-
-        listaProdutos();
 
         BtnAdicionarProdut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,20 +87,20 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
 
                 alertDialogBuilder.setView(vi);
 
-                final EditText edtData = (EditText) vi.findViewById(R.id.edtData);
-                final EditText edtPrazo = (EditText) vi.findViewById(R.id.edtPrazo);
-                final EditText edtPreco = (EditText) vi.findViewById(R.id.edtPreco);
-                final EditText edtPrecoVenda = (EditText) vi.findViewById(R.id.edtPrecoVenda);
-                final EditText edtQuantidade = (EditText) vi.findViewById(R.id.edtQuantidade);
+                final EditText edtData = vi.findViewById(R.id.edtData);
+                final EditText edtPrazo = vi.findViewById(R.id.edtPrazo);
+                final EditText edtPreco = vi.findViewById(R.id.edtPreco);
+                final EditText edtPrecoVenda = vi.findViewById(R.id.edtPrecoVenda);
+                final EditText edtQuantidade = vi.findViewById(R.id.edtQuantidade);
                 final EditText edtNotificarEstoque = (EditText) vi.findViewById(R.id.edtNotificarEstoque);
                 final EditText edtFornecedor = (EditText) vi.findViewById(R.id.edtFornecedor);
                 final Spinner spnCategoria = (Spinner) vi.findViewById(R.id.spnCategoria);
                 final Spinner spnUnidade = (Spinner) vi.findViewById(R.id.spnUnidade);
                 final AutoCompleteTextView edtNomeProduto = (AutoCompleteTextView) vi.findViewById(R.id.edtNomeProduto);
 
-                listaProdutos = procuraProtos();
+                List<Produtos> listaProdutosAux = procuraProtos();
                 edtNomeProduto.setThreshold(1);
-                procuraProdutosAdapter = new ProcuraProdutosAdapter(activityListaProdutos.this, R.layout.activity_lista_produtos, R.layout.linha_categoria, listaProdutos);
+                procuraProdutosAdapter = new ProcuraProdutosAdapter(activityListaProdutos.this, R.layout.activity_lista_produtos, R.layout.linha_categoria, listaProdutosAux);
                 edtNomeProduto.setAdapter(procuraProdutosAdapter);
 
 
@@ -117,7 +109,7 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
 
                 edtData.setText(dateFormat.format(new Date()));
 
-                adpCategoria = new ArrayAdapter<String>(activityListaProdutos.this, android.R.layout.simple_spinner_item);
+                adpCategoria = new ArrayAdapter<>(activityListaProdutos.this, android.R.layout.simple_spinner_item);
                 adpCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnCategoria.setAdapter(adpCategoria);
 
@@ -132,7 +124,7 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                 adpCategoria.add("Doces e salgados");
                 adpCategoria.add("Outro");
 
-                adpUnidade = new ArrayAdapter<String>(activityListaProdutos.this, android.R.layout.simple_spinner_item);
+                adpUnidade = new ArrayAdapter<>(activityListaProdutos.this, android.R.layout.simple_spinner_item);
                 adpUnidade.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnUnidade.setAdapter(adpUnidade);
 
@@ -145,9 +137,6 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                 adpUnidade.add("Molho");
                 adpUnidade.add("metros");
                 adpUnidade.add("Não identificada");
-
-                ///Alert Dialog Start
-
 
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Adicionar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -162,53 +151,6 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                         String estoqueMinimo = edtNotificarEstoque.getText().toString();
                         String nomeFornecedor = edtFornecedor.getText().toString();
 
-//                        //String nome_conf = contas.getNomeConta()
-//                        // if (validarFormulario()) {
-//
-//
-//                        //                private boolean validarFormulario() {
-//                        boolean valid = true;
-//
-//                        String quant = edtQuantidade.getText().toString();
-//                        String precoP = edtPreco.getText().toString();
-//
-//                        if (TextUtils.isEmpty(quant)) {
-//                            edtQuantidade.setError("Campo Obrigatório.");
-//                            valid = false;
-//                        } else {
-//                            edtQuantidade.setError(null);
-//                        }
-//
-//
-//                        String precoP = edtPreco.getText().toString();
-//                        if (TextUtils.isEmpty(precoP)) {
-//                            edtPreco.setError("Campo Obrigatório..");
-//                            valid = false;
-//                        } else {
-//                            edtPreco.setError(null);
-//                        }
-//
-//                        String nomeProduto = edtNomeProduto.getText().toString();
-//                        if (TextUtils.isEmpty(nomeProduto)) {
-//                            edtNomeProduto.setError("Campo Obrigatório..");
-//                            valid = false;
-//                        } else {
-//                            edtNomeProduto.setError(null);
-//                        }
-//                        String precoVendaP = edtPrecoVenda.getText().toString();
-//                        if (TextUtils.isEmpty(precoVendaP)) {
-//                            edtPrecoVenda.setError("Campo Obrigatório..");
-//                            valid = false;
-//                        } else {
-//                            edtPrecoVenda.setError(null);
-//                        }
-//
-//
-////                    return valid;
-////                }
-
-
-                        // Toast.makeText(activityListaProdutos.this, "Produto adicionado com Sucesso", Toast.LENGTH_LONG).show();
                         if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(data) || TextUtils.isEmpty(preco) || TextUtils.isEmpty(precoVenda) || TextUtils.isEmpty(quantidade) || TextUtils.isEmpty(estoqueMinimo)) {
                             Toast.makeText(activityListaProdutos.this, "Ocorreu um erro! tente novamente ", Toast.LENGTH_LONG).show();
                             edtNomeProduto.setError("Campo Obrigatório..");
@@ -219,25 +161,14 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                             Toast.makeText(activityListaProdutos.this, "preencha todos os campos Vazios ", Toast.LENGTH_LONG).show();
 
                         } else {
-                            db.addProduto(new Produtos(nome, data, categoria, prazo, Float.parseFloat(preco), Float.parseFloat(precoVenda), Integer.parseInt(quantidade), Unidade, Integer.parseInt(estoqueMinimo), nomeFornecedor));
+                            Produtos produto = new Produtos(nome, data, categoria, prazo, Float.parseFloat(preco), Float.parseFloat(precoVenda), Integer.parseInt(quantidade), Unidade, Integer.parseInt(estoqueMinimo), nomeFornecedor);
+                            db.addProduto(produto);
                             Toast.makeText(activityListaProdutos.this, "Produto adicionado com Sucesso", Toast.LENGTH_LONG).show();
-                            listaProdutos();
-                            /*listaProdutosAdapter = new ListaProdutosAdapter(getApplicationContext(), listaProdutos);
-                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                            recyclerView.setLayoutManager(layoutManager);
-                            recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-                            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
-*/
+                            listaProdutos = listaProdutos();
+                            listaProdutosAdapter = new ListaProdutosAdapter(activityListaProdutos.this, listaProdutos);
                             recyclerView.setAdapter(listaProdutosAdapter);
-                            listaProdutosAdapter.notifyDataSetChanged();
 
                         }
-//                        else {
-//                            // inicio.hideProgressDialog();
-//                            Toast.makeText(activityListaProdutos.this, "Preencha Todos os Campos obrigatorios", Toast.LENGTH_LONG).show();
-//                        }
-
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -268,25 +199,21 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                 int code = produtos.getId();
 
                 String codigo = String.valueOf(Integer.parseInt(String.valueOf(code)));
-
-                // if(codigo.isEmpty()){
                 Toast.makeText(activityListaProdutos.this, "Selecione um Produto", Toast.LENGTH_LONG).show();
-                // } else{
+
                 Produtos produtos = new Produtos();
                 produtos.setId(Integer.parseInt(codigo));
-                db.apagarProduto(produtos);
+                db.apagarProduto(produtos.getId());
 
                 Toast.makeText(activityListaProdutos.this, "Produto Excluido com Sucesso", Toast.LENGTH_LONG).show();
 
-                listaProdutos();
-
-                // }
-
+                //listaProdutos();
             }
         });
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -316,7 +243,12 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
         ArrayList<Produtos> newList = new ArrayList<>();
         for (Produtos produtos : listaProdutos) {
             String name = produtos.getNome().toLowerCase();
-            if (name.contains(newText)) {
+            String categoria = produtos.getCategoria().toLowerCase();
+            String preco = String.valueOf(produtos.getPreco());
+            if (name.contains(newText)
+                            || categoria.contains(newText)
+                            || preco.contains(newText)
+                    ) {
                 newList.add(produtos);
             }
         }
@@ -325,76 +257,21 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
         return true;
     }
 
-
-//    private boolean validarFormulario() {
-//        boolean valid = true;
-//
-//        String quant = edtQuantidade.getText().toString();
-//        if (TextUtils.isEmpty(quant)) {
-//            edtQuantidade.setError("Campo Obrigatório.");
-//            valid = false;
-//        } else {
-//            edtQuantidade.setError(null);
-//        }
-//
-//
-//        String preco = edtPreco.getText().toString();
-//        if (TextUtils.isEmpty(preco)) {
-//            edtPreco.setError("Campo Obrigatório..");
-//            valid = false;
-//        } else {
-//            edtPreco.setError(null);
-//        }
-//
-//        String nomeProduto = edtNomeProduto.getText().toString();
-//        if (TextUtils.isEmpty(nomeProduto)) {
-//            edtNomeProduto.setError("Campo Obrigatório..");
-//            valid = false;
-//        } else {
-//            edtNomeProduto.setError(null);
-//        }
-//        String precoVenda = edtPrecoVenda.getText().toString();
-//        if (TextUtils.isEmpty(precoVenda)) {
-//            edtPrecoVenda.setError("Campo Obrigatório..");
-//            valid = false;
-//        } else {
-//            edtPrecoVenda.setError(null);
-//        }
-//
-//
-//        return valid;
-//    }
-
-
-//    public void listaProdutos() {
-//
-//        Cursor dados = db.listaTodosProdutos();
-//
-//        if (dados.getCount() == 0) {
-//            Toast.makeText(this, "Não existem Produtos no estoque", Toast.LENGTH_LONG).show();
-//        } else {
-//            while (dados.moveToNext()) {
-//                String nomeProduto = dados.getString(1);
-//                float precoProduto = Float.parseFloat(dados.getString(6));
-//                int quantidadeProdut = Integer.parseInt(dados.getString(7));
-//
-//                Produtos listaiten = new Produtos(nomeProduto, precoProduto, quantidadeProdut);
-//                listaProdutos.add(listaiten);
-//            }
-//        }
-//    }
-
     public List<Produtos> listaProdutos() {
+        listaProdutos = new ArrayList<>();
         Cursor dados = db.listaTodosProdutos();
         if (dados.getCount() == 0) {
             Toast.makeText(this, "Não existem Produtos no estoque", Toast.LENGTH_LONG);
         } else {
             while (dados.moveToNext()) {
+                int idProduto = dados.getInt(0);
                 String nomeProduto = dados.getString(1);
                 float precoProduto = Float.parseFloat(dados.getString(6));
                 int quantidadeProdut = Integer.parseInt(dados.getString(7));
+                String prazo = dados.getString(4);
+                String categoria = dados.getString(3);
 
-                Produtos listaiten = new Produtos(nomeProduto, precoProduto, quantidadeProdut);
+                Produtos listaiten = new Produtos(idProduto, nomeProduto, precoProduto, quantidadeProdut, prazo, categoria);
                 listaProdutos.add(listaiten);
             }
         }
@@ -402,31 +279,27 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
     }
 
 
-
-
-    public List<Produtos> procuraProtos(){
+    public List<Produtos> procuraProtos() {
         List<Produtos> listaPro = new ArrayList<>();
         db = new DatabaseHelper(this);
         Cursor dados = db.listaTodosProdutos();
-        if(dados.getCount() == 0){
+        if (dados.getCount() == 0) {
             Toast.makeText(this, "Nenhum Produto", Toast.LENGTH_LONG);
-        }else{
-            while(dados.moveToNext()){
+        } else {
+            while (dados.moveToNext()) {
+                int idProduto = dados.getInt(0);
                 String nomeProduto = dados.getString(1);
                 float precoProduto = Float.parseFloat(dados.getString(6));
                 int quantidadeProdut = Integer.parseInt(dados.getString(7));
+                String prazo = dados.getString(4);
+                String categoria = dados.getString(3);
 
-                Produtos listaiten = new Produtos(nomeProduto, precoProduto, quantidadeProdut);
+                Produtos listaiten = new Produtos(idProduto, nomeProduto, precoProduto, quantidadeProdut, prazo, categoria);
                 listaPro.add(listaiten);
             }
-        }return listaPro;
+        }
+        return listaPro;
 
 
     }
-
-
-
-
-    /////FiM/////////
-
 }

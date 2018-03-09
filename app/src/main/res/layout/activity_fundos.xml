@@ -8,7 +8,7 @@
     android:padding="10dp"
     android:layout_margin="10dp"
     android:layout_gravity="center_horizontal|center_vertical"
-    tools:context="com.firedevz.sistemadegestaofinanceira.activity.ActivityFundos">
+    tools:activity="com.firedevz.sistemadegestaofinanceira.activity.ActivityFundos">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

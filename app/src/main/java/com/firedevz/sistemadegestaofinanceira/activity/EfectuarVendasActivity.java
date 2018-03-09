@@ -38,34 +38,30 @@ import java.util.List;
 
 public class EfectuarVendasActivity extends AppCompatActivity implements View.OnLongClickListener {
 
-    private ListView lstConta,lstProdutos;
-    private Button btnPagar,btnFacturar,btnAdicionarAconta;
+    public static boolean is_in_action_mode = false;
+    Toolbar toolbar_vendas;
+    TextView counter_text_view;
+    ListView lstViewRendimentos;
+    DatabaseHelper db = new DatabaseHelper(this);
+    private ListView lstConta, lstProdutos;
+    private Button btnPagar, btnFacturar, btnAdicionarAconta;
     private TextView txtconta;
-    private ArrayAdapter<String > adpMetodoPagamento;
+    private ArrayAdapter<String> adpMetodoPagamento;
     private EditText edtQuantidade;
     private AutoCompleteTextView edtNomeProdutoApgar;
     private int total;
     private TextView txtPrecoProduto;
     private float precoProduto;
     private int nuitCliente;
-    Toolbar toolbar_vendas;
-    public static boolean is_in_action_mode = false;
-    TextView counter_text_view;
-
     private ProcuraProdutosAdapter procuraProdutosAdapter;
     private ProcuraClienteAdapter procuraClienteAdapter;
     private List<Clientes> listaClientes = new ArrayList<>();
     private List<Produtos> listaProdutos = new ArrayList<>();
     private List<ContaCliente> listaProdutosNaConta = new ArrayList<>();
-    private ListaProdutosAdapter listaProdutosAdapter ;
+    private ListaProdutosAdapter listaProdutosAdapter;
     private ListaContaClienteAdapter listaContaClienteAdapter;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-
-
-    ListView lstViewRendimentos;
-
-    DatabaseHelper db = new DatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +79,10 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
         counter_text_view = (TextView) findViewById(R.id.counter_text);
         counter_text_view.setVisibility(View.GONE);
         recyclerView = (RecyclerView) findViewById(R.id.recycle_lista_conta_cliente);
-        toolbar_vendas = (Toolbar)findViewById(R.id.toolbar_vendas);
+        toolbar_vendas = (Toolbar) findViewById(R.id.toolbar_vendas);
         setSupportActionBar(toolbar_vendas);
 
-        edtNomeProdutoApgar = (AutoCompleteTextView)findViewById(R.id.edtNomeProdutoApgar);
+        edtNomeProdutoApgar = (AutoCompleteTextView) findViewById(R.id.edtNomeProdutoApgar);
 
         listaProdutos = procuraProdutos();
         edtNomeProdutoApgar.setThreshold(1);
@@ -99,9 +95,9 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
         ////Mostra quantidade depois de selecionar o produto
         edtNomeProdutoApgar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int pos,long id) {
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                 precoProduto = listaProdutos.get(pos).getPreco();
-                txtPrecoProduto.setText(precoProduto+"0 MZN");
+                txtPrecoProduto.setText(precoProduto + "0 MZN");
 //                txtPrecoProduto[0] = produStockModels.get(pos).getProduto_preco_venda();
             }
         });
@@ -116,15 +112,14 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
                     edtQuantidade.setError("campo Obrigatorio");
                 } else {
                     //insert
-                    db.addContaCliente(new ContaCliente(produto, precoProduto,quantidade));
+                    db.addContaCliente(new ContaCliente(produto, precoProduto, quantidade));
                     Toast.makeText(EfectuarVendasActivity.this, "Produto adicionado a Lista", Toast.LENGTH_LONG).show();
 
                     //                    valorRendimentoConta=db.somaRendimentoConta(contaAdicionar);
 //                    Toast.makeText(RendimentosActivity.this, "Adicionado a conta: "+contaAdicionar+" "+valorRendimentoConta+"0 MZN", Toast.LENGTH_SHORT).show();
 //                    db.adicionaNaConta(contaAdicionar,valorRendimentoConta);
 //                    listaRendimentos();
-                  //
-
+                    //
 
 
                     limpaCampos();
@@ -135,9 +130,6 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
 
             }
         });
-
-
-
 
 
         listaContaClienteAdapter = new ListaContaClienteAdapter(listaProdutosNaConta);
@@ -173,11 +165,10 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
             }
         });*/
 
-       // listaProdutos();
+        // listaProdutos();
 
 
-
-        btnPagar.setOnClickListener(new View.OnClickListener(){
+        btnPagar.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
@@ -197,7 +188,7 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
 
                 String[] spinnerLists = db.getAllSpinnerAccounts();
 
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(EfectuarVendasActivity.this,android.R.layout.simple_spinner_item, spinnerLists);
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(EfectuarVendasActivity.this, android.R.layout.simple_spinner_item, spinnerLists);
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnContaEntrar.setAdapter(spinnerAdapter);
 
@@ -208,7 +199,7 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
                 adpMetodoPagamento.add("Cash");
                 adpMetodoPagamento.add("Cartão");
                 adpMetodoPagamento.add("M-Pesa");
-                adpMetodoPagamento.add("Outro") ;
+                adpMetodoPagamento.add("Outro");
 
 
                 listaClientes = procuraCliente();
@@ -219,10 +210,10 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
                 //Adiciona nuite depois de selecionar cliente
                 edtNomeCliente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View arg1, int pos,long id) {
+                    public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                         nuitCliente = listaClientes.get(pos).getNuitCliente();
-                        Toast.makeText(EfectuarVendasActivity.this, nuitCliente+"", Toast.LENGTH_LONG).show();
-                        edtNuitCliente.setText(nuitCliente+"");
+                        Toast.makeText(EfectuarVendasActivity.this, nuitCliente + "", Toast.LENGTH_LONG).show();
+                        edtNuitCliente.setText(nuitCliente + "");
                     }
                 });
 
@@ -232,11 +223,10 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
 
 
                         String nomeCliente = edtNomeCliente.getText().toString();
-                        float  nuitCliente = Float.parseFloat(edtNuitCliente.getText().toString());
+                        float nuitCliente = Float.parseFloat(edtNuitCliente.getText().toString());
                         String descontoCliente = edtDesconto.getText().toString();
                         String metodoPagamento = spnMetodoPagamento.getSelectedItem().toString();
                         String contaEntrar = spnContaEntrar.getSelectedItem().toString();
-
 
 
                         //String nome_conf = contas.getNomeConta()
@@ -268,53 +258,59 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
             Toast.makeText(this, "Sem Produtoss", Toast.LENGTH_LONG).show();
         } else {
             while (dados.moveToNext()) {
+                int idProduto = dados.getInt(0);
                 String nome = dados.getString(1);
                 float preco = Float.parseFloat(dados.getString(6));
                 int quantidade = Integer.parseInt(dados.getString(7));
+                String prazo = dados.getString(4);
+                String categoria = dados.getString(3);
 
-                Produtos listaiten = new Produtos(nome, preco, quantidade);
+                Produtos listaiten = new Produtos(idProduto, nome, preco, quantidade, prazo, categoria);
                 listaProdutos.add(listaiten);
             }
         }
     }
 
 
-
-    public List<Produtos> procuraProdutos(){
+    public List<Produtos> procuraProdutos() {
         List<Produtos> listaPro = new ArrayList<>();
         db = new DatabaseHelper(this);
         Cursor dados = db.listaTodosProdutos();
-        if(dados.getCount() == 0){
+        if (dados.getCount() == 0) {
             Toast.makeText(this, "Nenhum Produto", Toast.LENGTH_LONG);
-        }else{
-            while(dados.moveToNext()){
+        } else {
+            while (dados.moveToNext()) {
+                int idProduto = dados.getInt(0);
                 String nomeProduto = dados.getString(1);
                 float precoProduto = Float.parseFloat(dados.getString(6));
                 int quantidadeProdut = Integer.parseInt(dados.getString(7));
+                String prazo = dados.getString(4);
+                String categoria = dados.getString(3);
 
-                Produtos listaiten = new Produtos(nomeProduto, precoProduto, quantidadeProdut);
+                Produtos listaiten = new Produtos(idProduto, nomeProduto, precoProduto, quantidadeProdut, prazo, categoria);
                 listaPro.add(listaiten);
             }
-        }return listaPro;
+        }
+        return listaPro;
     }
 
 
-
-    public List<Clientes> procuraCliente(){
+    public List<Clientes> procuraCliente() {
         List<Clientes> listaClient = new ArrayList<>();
         db = new DatabaseHelper(this);
         Cursor dados = db.listaTodosClientes();
-        if(dados.getCount() == 0){
+        if (dados.getCount() == 0) {
             Toast.makeText(this, "Nenhum Cliente", Toast.LENGTH_LONG);
-        }else{
-            while(dados.moveToNext()){
+        } else {
+            while (dados.moveToNext()) {
                 String nomeCliente = dados.getString(1);
 
 
                 Clientes listaiten = new Clientes(nomeCliente);
                 listaClient.add(listaiten);
             }
-        }return listaClient;
+        }
+        return listaClient;
     }
 
 

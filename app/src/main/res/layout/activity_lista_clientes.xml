@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.firedevz.sistemadegestaofinanceira.activity.ActivityListaClientes">
+    tools:activity="com.firedevz.sistemadegestaofinanceira.activity.ActivityListaClientes">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

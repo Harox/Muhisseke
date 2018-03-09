@@ -25,10 +25,13 @@ public class Produtos {
     public Produtos() {
     }
 
-    public Produtos(String nome, float preco, int quantidade) {
+    public Produtos(int id, String nome, float preco, int quantidade, String prazo, String categoria) {
+        this.id = id;
         this.nome = nome;
         Quantidade = quantidade;
         this.preco = preco;
+        this.prazo = prazo;
+        this.categoria = categoria;
     }
 
     public Produtos(String nome, String dataEntrada, String categoria, String prazo, float precoCompra, float preco, int quantidade, String unidade, int estoqueMinimo, String nomeFornecedor) {
