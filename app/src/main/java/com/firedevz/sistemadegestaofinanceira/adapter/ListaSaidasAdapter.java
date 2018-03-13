@@ -14,15 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.activity.ActivityListaDespesa;
-import com.firedevz.sistemadegestaofinanceira.modelo.Despesas;
+import com.firedevz.sistemadegestaofinanceira.modelo.Despesa;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.List;
 
 public class ListaSaidasAdapter extends RecyclerView.Adapter<ListaSaidasAdapter.ViewHolder> {
 
-    private List<Despesas> despesas;
+    private List<Despesa> despesas;
     // DatabaseHelper db;
 
     Context context;
@@ -45,7 +44,7 @@ public class ListaSaidasAdapter extends RecyclerView.Adapter<ListaSaidasAdapter.
 
     }
 
-    public ListaSaidasAdapter( Context context, List<Despesas> despesas) {
+    public ListaSaidasAdapter( Context context, List<Despesa> despesas) {
         this.despesas = despesas;
         this.context = context;
     }
@@ -57,7 +56,7 @@ public class ListaSaidasAdapter extends RecyclerView.Adapter<ListaSaidasAdapter.
 
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Despesas listItem = despesas.get(position);
+        final Despesa listItem = despesas.get(position);
         holder.txtDscricaoDespesa.setText(listItem.getDescricao_despesa());
         holder.txtValorDespesa.setText(listItem.getValor_despesa() + "MT");
         holder.txtTipoDespesa.setText(listItem.getTipo_despesa()+"");

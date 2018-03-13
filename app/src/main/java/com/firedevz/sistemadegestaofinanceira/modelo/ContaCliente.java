@@ -5,6 +5,9 @@ package com.firedevz.sistemadegestaofinanceira.modelo;
  */
 
 public class ContaCliente {
+
+    public String PAPER_NAME = "contas_cliente";
+
     int id_produto_conta;
     String nome_produto;
     float preco_produto;

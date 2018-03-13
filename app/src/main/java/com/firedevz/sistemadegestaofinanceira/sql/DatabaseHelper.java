@@ -8,12 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.firedevz.sistemadegestaofinanceira.modelo.Clientes;
+import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
+import com.firedevz.sistemadegestaofinanceira.modelo.Conta;
 import com.firedevz.sistemadegestaofinanceira.modelo.ContaCliente;
-import com.firedevz.sistemadegestaofinanceira.modelo.Contas;
-import com.firedevz.sistemadegestaofinanceira.modelo.Despesas;
-import com.firedevz.sistemadegestaofinanceira.modelo.Fornecedores;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Despesa;
+import com.firedevz.sistemadegestaofinanceira.modelo.Fornecedor;
+import com.firedevz.sistemadegestaofinanceira.modelo.Produto;
 import com.firedevz.sistemadegestaofinanceira.modelo.Rendimento;
 import com.firedevz.sistemadegestaofinanceira.modelo.Usuario;
 import com.firedevz.sistemadegestaofinanceira.modelo.Venda;
@@ -316,7 +316,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Metodo Adiciona Usuario
-    public boolean addDespesa(Despesas despesas) {
+    public boolean addDespesa(Despesa despesa) {
 
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -324,20 +324,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
 
-        values.put(COLUNA_DESCRICAO_DESPESA, despesas.getDescricao_despesa());
-        values.put(COLUNA_VALOR_DESPESA, despesas.getValor_despesa());
-        values.put(COLUNA_TIPO_DESPESA, despesas.getTipo_despesa());
-        values.put(COLUNA_CONTA_RETIRADA, despesas.getConta_Retirada());
+        values.put(COLUNA_DESCRICAO_DESPESA, despesa.getDescricao_despesa());
+        values.put(COLUNA_VALOR_DESPESA, despesa.getValor_despesa());
+        values.put(COLUNA_TIPO_DESPESA, despesa.getTipo_despesa());
+        values.put(COLUNA_CONTA_RETIRADA, despesa.getConta_Retirada());
 
         long verficainsert = db.insert(TABELA_DESPESAS, null, values);
 
         Cursor cursor = db.query(TABELA_DESPESAS, new String[]{COLUNA_ID_DESPESA, COLUNA_DESCRICAO_DESPESA, COLUNA_VALOR_DESPESA, COLUNA_TIPO_DESPESA,COLUNA_CONTA_RETIRADA}, COLUNA_ID_DESPESA +"="+verficainsert, null, null, null, null);
         cursor.moveToFirst();
-        Despesas despesas1= new Despesas();
-        despesas1.setId_despesa(cursor.getInt(0));
-        despesas1.setDescricao_despesa(cursor.getString(1));
-        despesas1.setValor_despesa(Float.parseFloat(cursor.getString(2)));
-        despesas1.setTipo_despesa(cursor.getString(3));
+        Despesa despesa1 = new Despesa();
+        despesa1.setId_despesa(cursor.getInt(0));
+        despesa1.setDescricao_despesa(cursor.getString(1));
+        despesa1.setValor_despesa(Float.parseFloat(cursor.getString(2)));
+        despesa1.setTipo_despesa(cursor.getString(3));
         cursor.close();
         db.close();
         if(verficainsert != -1){
@@ -382,30 +382,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Metodo Adiciona Cliente
-    public boolean addCliente(Clientes clientes) {
+    public boolean addCliente(Cliente cliente) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUNA_NOME_CLIENTE, clientes.getNome());
-        values.put(COLUNA_TELEFONE_CLIENTE, clientes.getTelefone());
-        values.put(COLUNA_EMAIL_CLIENTE, clientes.getEmail());
-        values.put(COLUNA_MORADA_CLIENTE, clientes.getMorada());
-        values.put(COLUNA_DIVIDA_CLIENTE, clientes.getDivida());
-        values.put(COLUNA_NUIT_CLIENTE, clientes.getNuitCliente());
+        values.put(COLUNA_NOME_CLIENTE, cliente.getNome());
+        values.put(COLUNA_TELEFONE_CLIENTE, cliente.getTelefone());
+        values.put(COLUNA_EMAIL_CLIENTE, cliente.getEmail());
+        values.put(COLUNA_MORADA_CLIENTE, cliente.getMorada());
+        values.put(COLUNA_DIVIDA_CLIENTE, cliente.getDivida());
+        values.put(COLUNA_NUIT_CLIENTE, cliente.getNuitCliente());
         long verficainsert = db.insert(TABELA_CLIENTES, null, values);
 
         Cursor cursor = db.query(TABELA_CLIENTES, new String[]{COLUNA_ID_CLIENTE, COLUNA_NOME_CLIENTE, COLUNA_TELEFONE_CLIENTE, COLUNA_EMAIL_CLIENTE, COLUNA_MORADA_CLIENTE,COLUNA_NUIT_CLIENTE,COLUNA_DIVIDA_CLIENTE}, COLUNA_ID_CLIENTE +"="+verficainsert, null, null, null, null);
         cursor.moveToFirst();
-        Clientes clientes1= new Clientes();
-        clientes1.setId(cursor.getInt(0));
-        clientes1.setNome(cursor.getString(1));
-        clientes1.setTelefone(cursor.getString(2));
-        clientes1.setEmail(cursor.getString(3));
-        clientes1.setMorada(cursor.getString(4));
-        clientes1.setNuitCliente(Integer.parseInt(cursor.getString(5)));
-        clientes1.setDivida(Float.parseFloat(cursor.getString(6)));
+        Cliente cliente1 = new Cliente();
+        cliente1.setId(cursor.getInt(0));
+        cliente1.setNome(cursor.getString(1));
+        cliente1.setTelefone(cursor.getString(2));
+        cliente1.setEmail(cursor.getString(3));
+        cliente1.setMorada(cursor.getString(4));
+        cliente1.setNuitCliente(Integer.parseInt(cursor.getString(5)));
+        cliente1.setDivida(Float.parseFloat(cursor.getString(6)));
         cursor.close();
         db.close();
         if(verficainsert != -1){
@@ -416,40 +416,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //Metodo Adiciona ADD produtos
-    public boolean addProduto(Produtos produtos) {
+    //Metodo Adiciona ADD produto
+    public boolean addProduto(Produto produto) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUNA_NOME_PRODUTO, produtos.getNome());
-        values.put(COLUNA_DATA_PRODUTO, produtos.getDataEntrada());
-        values.put(COLUNA_CATEGORIA_PRODUTO, produtos.getCategoria());
-        values.put(COLUNA_VALIDADE_PRODUTO,produtos.getPrazo()) ;
-        values.put(COLUNA_PRECO_COMPRA_PRODUTO, produtos.getPrecoCompra());
-        values.put(COLUNA_PRECO_VENDA_PRODUTO, produtos.getPreco());
-        values.put(COLUNA_QUANTIDADE_PRODUTO, produtos.getQuantidade());
-        values.put(COLUNA_UNIDADE_PRODUTO, produtos.getUnidade());
-        values.put(COLUNA_ESTOQUEMINIMO_PRODUTO, produtos.getEstoqueMinimo());
-        values.put(COLUNA_NOME_FORNECEDOR_PRODUTO, produtos.getNomeFornecedor());
+        values.put(COLUNA_NOME_PRODUTO, produto.getNome());
+//        values.put(COLUNA_DATA_PRODUTO, produto.getDataEntrada());
+        values.put(COLUNA_CATEGORIA_PRODUTO, produto.getCategoria());
+//        values.put(COLUNA_VALIDADE_PRODUTO, produto.getPrazo()) ;
+        values.put(COLUNA_PRECO_COMPRA_PRODUTO, produto.getPrecoCompra());
+        values.put(COLUNA_PRECO_VENDA_PRODUTO, produto.getPreco());
+        values.put(COLUNA_QUANTIDADE_PRODUTO, produto.getQuantidade());
+        values.put(COLUNA_UNIDADE_PRODUTO, produto.getUnidade());
+        values.put(COLUNA_ESTOQUEMINIMO_PRODUTO, produto.getEstoqueMinimo());
+        values.put(COLUNA_NOME_FORNECEDOR_PRODUTO, produto.getNomeFornecedor());
         long verficainsert = db.insert(TABELA_PRODUTO, null, values);
 
         Cursor cursor = db.query(TABELA_PRODUTO, new String[]{COLUNA_ID_PRODUTO, COLUNA_NOME_PRODUTO,COLUNA_DATA_PRODUTO, COLUNA_CATEGORIA_PRODUTO,COLUNA_VALIDADE_PRODUTO,COLUNA_PRECO_COMPRA_PRODUTO, COLUNA_PRECO_VENDA_PRODUTO, COLUNA_QUANTIDADE_PRODUTO, COLUNA_UNIDADE_PRODUTO,COLUNA_ESTOQUEMINIMO_PRODUTO,COLUNA_NOME_FORNECEDOR_PRODUTO}, COLUNA_ID_PRODUTO +"="+verficainsert, null, null, null, null);
 
         cursor.moveToFirst();
-        Produtos produtos1= new Produtos();
-        produtos1.setId(cursor.getInt(0));
-        produtos1.setNome(cursor.getString(1));
-        produtos1.setDataEntrada(cursor.getString(2));
-        produtos1.setCategoria(cursor.getString(3));
-        produtos1.setPrazo(cursor.getString(4));
-        produtos1.setPrecoCompra(cursor.getInt(5));
-        produtos1.setPreco(cursor.getInt(6));
-        produtos1.setQuantidade(cursor.getInt(7));
-        produtos1.setUnidade(cursor.getString(8));
-        produtos1.setEstoqueMinimo(cursor.getInt(9));
-        produtos1.setNomeFornecedor(cursor.getString(10));
+        Produto produto1 = new Produto();
+        produto1.setId(cursor.getInt(0));
+        produto1.setNome(cursor.getString(1));
+//        produto1.setDataEntrada(cursor.getString(2));
+        produto1.setCategoria(cursor.getString(3));
+//        produto1.setPrazo(cursor.getString(4));
+        produto1.setPrecoCompra(cursor.getInt(5));
+        produto1.setPreco(cursor.getInt(6));
+        produto1.setQuantidade(cursor.getInt(7));
+        produto1.setUnidade(cursor.getString(8));
+        produto1.setEstoqueMinimo(cursor.getInt(9));
+        produto1.setNomeFornecedor(cursor.getString(10));
         cursor.close();
         db.close();
         if(verficainsert != -1){
@@ -461,31 +461,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     //Metodo Adiciona ADD Fornecedor
-    public boolean addFornecedor(Fornecedores fornecedores) {
+    public boolean addFornecedor(Fornecedor fornecedor) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUNA_NOME_FORNECEDOR, fornecedores.getNomeFornecedor());
-        values.put(COLUNA_TELEFONE_FORNECEDOR, fornecedores.getContactoFornecedor());
-        values.put(COLUNA_EMAIL_FORNECEDOR, fornecedores.getEmailFornecedro());
-        values.put(COLUNA_ENDERECO_FORNECEDOR,fornecedores.getEnderecoFornecedro()) ;
-        values.put(COLUNA_TIPO_FORNECEDOR, fornecedores.getTipoFornecedro());
-        values.put(COLUNA_TIPOPRODUTO_FORNECEDOR, fornecedores.getTipoProdutoFornecedro());
+        values.put(COLUNA_NOME_FORNECEDOR, fornecedor.getNomeFornecedor());
+        values.put(COLUNA_TELEFONE_FORNECEDOR, fornecedor.getContactoFornecedor());
+        values.put(COLUNA_EMAIL_FORNECEDOR, fornecedor.getEmailFornecedro());
+        values.put(COLUNA_ENDERECO_FORNECEDOR, fornecedor.getEnderecoFornecedro()) ;
+        values.put(COLUNA_TIPO_FORNECEDOR, fornecedor.getTipoFornecedro());
+        values.put(COLUNA_TIPOPRODUTO_FORNECEDOR, fornecedor.getTipoProdutoFornecedro());
         long verficainsert = db.insert(TABELA_FORNECEDOR, null, values);
 
         Cursor cursor = db.query(TABELA_FORNECEDOR, new String[]{COLUNA_ID_FORNECEDOR, COLUNA_NOME_FORNECEDOR,COLUNA_TELEFONE_FORNECEDOR, COLUNA_EMAIL_FORNECEDOR,COLUNA_ENDERECO_FORNECEDOR,COLUNA_TIPO_FORNECEDOR, COLUNA_TIPOPRODUTO_FORNECEDOR}, COLUNA_ID_FORNECEDOR +"="+verficainsert, null, null, null, null);
 
         cursor.moveToFirst();
-        Fornecedores fornecedores1= new Fornecedores();
-        fornecedores1.setIdFornecedor(cursor.getInt(0));
-        fornecedores1.setNomeFornecedor(cursor.getString(1));
-        fornecedores1.setContactoFornecedor(cursor.getString(2));
-        fornecedores1.setEmailFornecedro(cursor.getString(3));
-        fornecedores1.setEnderecoFornecedro(cursor.getString(4));
-        fornecedores1.setTipoFornecedro(cursor.getString(5));
-        fornecedores1.setTipoProdutoFornecedro(cursor.getString(6));
+        Fornecedor fornecedor1 = new Fornecedor();
+        fornecedor1.setIdFornecedor(cursor.getInt(0));
+        fornecedor1.setNomeFornecedor(cursor.getString(1));
+        fornecedor1.setContactoFornecedor(cursor.getString(2));
+        fornecedor1.setEmailFornecedro(cursor.getString(3));
+        fornecedor1.setEnderecoFornecedro(cursor.getString(4));
+        fornecedor1.setTipoFornecedro(cursor.getString(5));
+        fornecedor1.setTipoProdutoFornecedro(cursor.getString(6));
         cursor.close();
         db.close();
         if(verficainsert != -1){
@@ -504,7 +504,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUNA_ID_PRODUTO, venda.getIdProduto());
+//        values.put(COLUNA_ID_PRODUTO, venda.getIdProduto());
         values.put(COLUNA_QUANTIDADE_PRODUTO_VENDA, venda.getQuantidade());
         values.put(COLUNA_TIPO_VENDA,venda.getTipoVenda()) ;
         values.put(COLUNA_DESCONTO_VENDA, venda.getDesconto());
@@ -519,7 +519,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         Venda venda1= new Venda();
         venda1.setIdVenda(cursor.getInt(0));
-        venda1.setIdProduto(cursor.getInt(1));
+//        venda1.setIdProduto(cursor.getInt(1));
         venda1.setQuantidade(Float.parseFloat(cursor.getString(1)));
         venda1.setTipoVenda(cursor.getString(2));
         venda1.setDesconto(Float.parseFloat(cursor.getString(3)));
@@ -668,7 +668,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return total;
     }
 
-    //Valor total Despesas
+    //Valor total Despesa
     public int valorDespesas(){
         String sqlQuery = "SELECT SUM("+COLUNA_VALOR_DESPESA+") FROM "+TABELA_DESPESAS;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -847,7 +847,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //Metodo Verifica Produto
+    //Metodo Verifica ProdutoVenda
     public boolean verificaProduto(String nomeProduto) {
         String[] columns = {
                 COLUNA_ID_PRODUTO
@@ -910,7 +910,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Metodo Seleciona produto
-    public Produtos selecionarProduto(String nome) {
+    public Produto selecionarProduto(String nome) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABELA_PRODUTO, new String[]{COLUNA_ID_PRODUTO, COLUNA_NOME_PRODUTO, COLUNA_DATA_PRODUTO,COLUNA_CATEGORIA_PRODUTO,COLUNA_VALIDADE_PRODUTO,COLUNA_PRECO_COMPRA_PRODUTO, COLUNA_PRECO_VENDA_PRODUTO, COLUNA_QUANTIDADE_PRODUTO, COLUNA_UNIDADE_PRODUTO,COLUNA_ESTOQUEMINIMO_PRODUTO}, COLUNA_ID_PRODUTO + "  = ?",
@@ -919,10 +919,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        Produtos produtos = new Produtos(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4), Float.parseFloat(cursor.getString(5)), Float.parseFloat(cursor.getString(6)),Integer.parseInt(cursor.getString(7)), cursor.getString(8), Integer.parseInt(cursor.getString(9)));
+//        ProdutoVenda produto = new ProdutoVenda(Integer.parseInt(cursor.getString(0)),
+//                cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4), Float.parseFloat(cursor.getString(5)), Float.parseFloat(cursor.getString(6)),Integer.parseInt(cursor.getString(7)), cursor.getString(8), Integer.parseInt(cursor.getString(9)));
 
-        return produtos;
+        return null;
     }
 
 
@@ -970,10 +970,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        Rendimento rendimento = new Rendimento(cursor.getInt(0),cursor.getString(1),
-                Double.parseDouble(cursor.getString(2)), cursor.getString(3),cursor.getString(4));
+//        Rendimento rendimento = new Rendimento(cursor.getInt(0),cursor.getString(1),
+//                Double.parseDouble(cursor.getString(2)), cursor.getString(3),cursor.getString(4));
 
-        return rendimento;
+        return null;
     }
 
 
@@ -993,7 +993,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //Metodo Actualiza Produto
+    //Metodo Actualiza ProdutoVenda
     public Boolean actualizaProduto(String nome_conf,String nomePro,int quantPro,float PrecoPro, String prazoPro) {
 
 
@@ -1013,23 +1013,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Metodo Add Rendimentos
-    public boolean addConta(Contas contas) {
+    public boolean addConta(Conta conta) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(COLUNA_NOME_CONTA, contas.getNomeConta());
-        values.put(COLUNA_SALDO_ACTUAL, contas.getValorConta());
-        values.put(COLUNA_TIPO_CONTA,contas.getTipoConta()) ;
+        values.put(COLUNA_NOME_CONTA, conta.getNomeConta());
+        values.put(COLUNA_SALDO_ACTUAL, conta.getValorConta());
+        values.put(COLUNA_TIPO_CONTA, conta.getTipoConta()) ;
         long verficainsert = db.insert(TABELA_CONTAS, null, values);
 
         Cursor cursor = db.query(TABELA_CONTAS, new String[]{COLUNA_ID_CONTA,COLUNA_NOME_CONTA, COLUNA_SALDO_ACTUAL, COLUNA_TIPO_CONTA}, COLUNA_ID_CONTA+"="+verficainsert, null, null, null, null);
 
         cursor.moveToFirst();
-        Contas contas1= new Contas();
-        contas1.setNomeConta(cursor.getString(0));
-        contas1.setValorConta(cursor.getFloat(1));
-        contas1.setTipoConta(cursor.getString(2));
+        Conta conta1 = new Conta();
+        conta1.setNomeConta(cursor.getString(0));
+        conta1.setValorConta(cursor.getFloat(1));
+        conta1.setTipoConta(cursor.getString(2));
         cursor.close();
         db.close();
         if(verficainsert != -1){
@@ -1147,7 +1147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    //Metodo Lista Produtos
+    //Metodo Lista ProdutoVenda
     public Cursor listaTodosProdutos() {
         String query = "SELECT * FROM " + TABELA_PRODUTO;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -1227,7 +1227,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    //Metodo Lista Produtos
+    //Metodo Lista ProdutoVenda
     public Cursor listaTodasContas() {
         String query = "SELECT * FROM " + TABELA_CONTAS;
         SQLiteDatabase db = this.getWritableDatabase();

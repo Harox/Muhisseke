@@ -2,7 +2,6 @@ package com.firedevz.sistemadegestaofinanceira.activity;
 
 
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -25,8 +24,7 @@ import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaClienteAdapter;
-import com.firedevz.sistemadegestaofinanceira.modelo.Clientes;
-import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
+import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
 import com.github.tamir7.contacts.Contact;
 import com.github.tamir7.contacts.Contacts;
 import com.github.tamir7.contacts.Query;
@@ -37,9 +35,9 @@ import java.util.List;
 public class ActivityListaClientes extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
 
-    DatabaseHelper db = new DatabaseHelper(this);
-    Clientes clientes = new Clientes();
-    private List<Clientes> listaCliente = new ArrayList<>();
+    //    DatabaseHelper db = new DatabaseHelper(this);
+    Cliente cliente = new Cliente();
+    private List<Cliente> listaCliente = new ArrayList<>();
     private ListaClienteAdapter listaClienteAdapter;
     private RecyclerView recyclerView;
     private Toolbar toolbarCliente;
@@ -65,8 +63,8 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-        listaClientes();
-
+//        listaClientes();
+        listaCliente = Cliente.list();
         listaClienteAdapter = new ListaClienteAdapter(this, listaCliente);
         recyclerView.setAdapter(listaClienteAdapter);
 
@@ -95,10 +93,12 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
                         String emailCliente = edtEmailCliente.getText().toString();
                         String enderecoCliente = edtEnderecoCliente.getText().toString();
                         int nuitCliente = Integer.parseInt(edtNuitCliente.getText().toString());
-                        if (db.addCliente(new Clientes(nomeCliente, telefoneCliente, emailCliente, enderecoCliente, nuitCliente))) {
-                            Toast.makeText(ActivityListaClientes.this, "Cliente adicionado com Sucesso", Toast.LENGTH_LONG).show();
-                            listaClientes();
+                        Cliente cliente = new Cliente(nomeCliente, telefoneCliente, emailCliente, enderecoCliente, nuitCliente);
 
+                        if (Cliente.register(cliente)) {
+                            Toast.makeText(ActivityListaClientes.this, "Cliente adicionado com Sucesso", Toast.LENGTH_LONG).show();
+
+                            listaCliente = Cliente.list();
                             listaClienteAdapter = new ListaClienteAdapter(ActivityListaClientes.this, listaCliente);
                             recyclerView.setAdapter(listaClienteAdapter);
                         }
@@ -163,35 +163,35 @@ public class ActivityListaClientes extends AppCompatActivity implements SearchVi
     @Override
     public boolean onQueryTextChange(String newText) {
         newText = newText.toLowerCase();
-        ArrayList<Clientes> newList = new ArrayList<>();
-        for (Clientes clientes : listaCliente) {
-            String name = clientes.getNome().toLowerCase();
+        ArrayList<Cliente> newList = new ArrayList<>();
+        for (Cliente cliente : listaCliente) {
+            String name = cliente.getNome().toLowerCase();
             if (name.contains(newText)) {
-                newList.add(clientes);
+                newList.add(cliente);
             }
         }
         listaClienteAdapter.setFilter(newList);
         return true;
     }
 
-    public void listaClientes() {
-        listaCliente = new ArrayList<>();
-        Cursor dados = db.listaTodosClientes();
-
-        if (dados.getCount() == 0) {
-            Toast.makeText(this, "Não existem Clientes Registrados", Toast.LENGTH_LONG).show();
-        } else {
-            while (dados.moveToNext()) {
-                String nomeCliente = dados.getString(1);
-                String telefoneCliente = dados.getString(2);
-                String emailCliente = dados.getString(3);
-                String enderecoCliente = dados.getString(4);
-                int nuitClient = dados.getInt(5);
-                float estadoCliente = Float.parseFloat(dados.getString(6));
-
-                Clientes listaiten = new Clientes(nomeCliente, telefoneCliente, emailCliente, enderecoCliente, nuitClient, estadoCliente);
-                listaCliente.add(listaiten);
-            }
-        }
-    }
+//    public void listaClientes() {
+//        listaCliente = new ArrayList<>();
+//        Cursor dados = db.listaTodosClientes();
+//
+//        if (dados.getCount() == 0) {
+//            Toast.makeText(this, "Não existem Cliente Registrados", Toast.LENGTH_LONG).show();
+//        } else {
+//            while (dados.moveToNext()) {
+//                String nomeCliente = dados.getString(1);
+//                String telefoneCliente = dados.getString(2);
+//                String emailCliente = dados.getString(3);
+//                String enderecoCliente = dados.getString(4);
+//                int nuitClient = dados.getInt(5);
+//                float estadoCliente = Float.parseFloat(dados.getString(6));
+//
+//                Cliente listaiten = new Cliente(nomeCliente, telefoneCliente, emailCliente, enderecoCliente, nuitClient, estadoCliente);
+//                listaCliente.add(listaiten);
+//            }
+//        }
+//    }
 }

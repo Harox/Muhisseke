@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.activity.EfectuarVendasActivity;
-import com.firedevz.sistemadegestaofinanceira.modelo.ContaCliente;
+import com.firedevz.sistemadegestaofinanceira.modelo.Venda;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ListaContaClienteAdapter extends RecyclerView.Adapter<ListaContaClienteAdapter.ViewHolder>{
 
-    private List<ContaCliente> contaClientes;
+    private List<Venda.ProdutoVenda> produtosNaVenda;
 
     Context context;
     DatabaseHelper db = new DatabaseHelper(context);
@@ -46,14 +46,14 @@ public class ListaContaClienteAdapter extends RecyclerView.Adapter<ListaContaCli
         }
     }
 
-    public ListaContaClienteAdapter( Context context, List<ContaCliente> contaClientes) {
-        this.contaClientes = contaClientes;
+    public ListaContaClienteAdapter( Context context, List<Venda.ProdutoVenda> produtosNaVenda) {
+        this.produtosNaVenda = produtosNaVenda;
         this.context = context;
     }
 
 
-    public ListaContaClienteAdapter(List<ContaCliente> contaClientes) {
-        this.contaClientes = contaClientes;
+    public ListaContaClienteAdapter(List<Venda.ProdutoVenda> produtosNaVenda) {
+        this.produtosNaVenda = produtosNaVenda;
     }
 
     public ListaContaClienteAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -62,10 +62,10 @@ public class ListaContaClienteAdapter extends RecyclerView.Adapter<ListaContaCli
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ContaCliente listItem = contaClientes.get(position);
-        holder.txtNomeProdutoConta.setText(listItem.getNome_produto()+"");
-        holder.txtValorProdutoConta.setText(listItem.getPreco_produto() + "MT");
-        holder.txtQuantidadeProdutoConta.setText(listItem.getQuant_produto()+"");
+        final Venda.ProdutoVenda listItem = produtosNaVenda.get(position);
+        holder.txtNomeProdutoConta.setText(listItem.nome+"");
+        holder.txtValorProdutoConta.setText(listItem.preco + "MT");
+        holder.txtQuantidadeProdutoConta.setText(listItem.quantidade+"");
         if(!EfectuarVendasActivity.is_in_action_mode){
             holder.checkBox.setVisibility(View.GONE);
         }else{
@@ -77,10 +77,10 @@ public class ListaContaClienteAdapter extends RecyclerView.Adapter<ListaContaCli
     @Override
     public int getItemCount() {
 
-        if(contaClientes == null) {
+        if(produtosNaVenda == null) {
             return 0;
         }else {
-            return contaClientes.size();
+            return produtosNaVenda.size();
         }
     }
 

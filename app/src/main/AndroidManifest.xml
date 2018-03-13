@@ -69,7 +69,12 @@
             android:label="@string/title_activity_fundos" />
         <activity
             android:name=".activity.ActivityRelatorioRendimentos"
-            android:label="Relatorio Rendimento" ></activity>
+            android:label="Relatorio Rendimento" />
+        <activity android:name=".activity.VendasPendentesActivity" />
+        <activity
+            android:name=".activity.RequisicoesActivity"
+            android:label="@string/title_activity_requisicoes"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

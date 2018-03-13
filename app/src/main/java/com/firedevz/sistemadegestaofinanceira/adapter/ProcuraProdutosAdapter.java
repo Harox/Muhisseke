@@ -1,7 +1,6 @@
 package com.firedevz.sistemadegestaofinanceira.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,27 +9,27 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProcuraProdutosAdapter extends ArrayAdapter<Produtos> {
+public class ProcuraProdutosAdapter extends ArrayAdapter<Produto> {
 
     Context context;
     int resource, textViewResourceId;
-    List<Produtos> items, tempItems, suggestions;
+    List<Produto> items, tempItems, suggestions;
 
 
-    public ProcuraProdutosAdapter(Context context, int resource, int textViewResourceId, List<Produtos> items) {
+    public ProcuraProdutosAdapter(Context context, int resource, int textViewResourceId, List<Produto> items) {
         super(context, resource, textViewResourceId, items);
         this.context = context;
         this.resource = resource;
         this.textViewResourceId = textViewResourceId;
         this.items = items;
-        tempItems = new ArrayList<Produtos>(items); // this makes the difference.
-        suggestions = new ArrayList<Produtos>();
+        tempItems = new ArrayList<Produto>(items); // this makes the difference.
+        suggestions = new ArrayList<Produto>();
     }
 
 
@@ -41,7 +40,7 @@ public class ProcuraProdutosAdapter extends ArrayAdapter<Produtos> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.linha_categoria, parent, false);
         }
-        Produtos pmodel = items.get(position);
+        Produto pmodel = items.get(position);
         if (pmodel != null) {
             TextView lblName = (TextView) view.findViewById(R.id.lbl_name);
             if (lblName != null)
@@ -62,7 +61,7 @@ public class ProcuraProdutosAdapter extends ArrayAdapter<Produtos> {
     Filter nameFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            String str = ((Produtos) resultValue).getNome();
+            String str = ((Produto) resultValue).getNome();
             return str;
         }
 
@@ -70,7 +69,7 @@ public class ProcuraProdutosAdapter extends ArrayAdapter<Produtos> {
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
                 suggestions.clear();
-                for (Produtos pmodel : tempItems) {
+                for (Produto pmodel : tempItems) {
                     if (pmodel.getNome().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         suggestions.add(pmodel);
                     }
@@ -86,10 +85,10 @@ public class ProcuraProdutosAdapter extends ArrayAdapter<Produtos> {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<Produtos> filterList = (ArrayList<Produtos>) results.values;
+            List<Produto> filterList = (ArrayList<Produto>) results.values;
             if (results != null && results.count > 0) {
                 clear();
-                for (Produtos pmodel : filterList) {
+                for (Produto pmodel : filterList) {
                     add(pmodel);
                     notifyDataSetChanged();
                 }

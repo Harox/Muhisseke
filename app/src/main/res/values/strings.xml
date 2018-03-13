@@ -57,9 +57,10 @@
     <string name="saldo">Saldo</string>
     <string name="quan">Quan.</string>
     <string name="pre_o">Preço</string>
-    <string name="produto">Produto</string>
+    <string name="produtoVenda">Produto</string>
     <string name="nome_do_produto">Nome do Produto</string>
     <string name="conta">Conta</string>
     <string name="title_activity_testado">testado</string>
     <string name="title_activity_feito">feito</string>
+    <string name="title_activity_requisicoes">RequisicoesActivity</string>
 </resources>

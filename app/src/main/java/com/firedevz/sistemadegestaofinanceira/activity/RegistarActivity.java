@@ -64,7 +64,27 @@ public class RegistarActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch ((v.getId())){
             case R.id.btnRegistar:
-                postDataToSQLite();
+                Usuario usuario = new Usuario();
+                usuario.setNome((edtNomeCompleto.getText().toString().trim()));
+                usuario.setEmail(edtEmail.getText().toString().trim());
+                usuario.setTelefone(edtCelular.getText().toString().trim());
+                usuario.setEndereco(edtEndereco.getText().toString().trim());
+                usuario.setSenha(edtSenha.getText().toString().trim());
+                if(validarFormulario()) {
+                    if(Usuario.exists(edtCelular.getText().toString())){
+                        Toast.makeText(RegistarActivity.this, "O numero introduzido ja possui uma conta! ", Toast.LENGTH_LONG).show();
+                    } else {
+                        Usuario.register(usuario);
+                        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(RegistarActivity.this, "Preencha Todos os Campos obrigatorios!", Toast.LENGTH_LONG).show();
+                }
+//                postDataToSQLite();
                 break;
         }
     }

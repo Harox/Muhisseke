@@ -1,22 +1,8 @@
 package com.firedevz.sistemadegestaofinanceira.adapter;
 
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
-import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
-
-import java.util.List;
-
 public class ListaProdutosAdapter2 {
-//    private List<Produtos> produtos;
+//    private List<ProdutoVenda> produtos;
 //    DatabaseHelper db;
 //
 //    Context context;
@@ -36,7 +22,7 @@ public class ListaProdutosAdapter2 {
 //
 //    }
 //
-//    public ListaProdutosAdapter2(List<Produtos> produtos) {
+//    public ListaProdutosAdapter2(List<ProdutoVenda> produtos) {
 //        this.produtos = produtos;
 //    }
 //

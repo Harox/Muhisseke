@@ -123,7 +123,7 @@ public class ActivityRelatorios extends AppCompatActivity {
 
         adpTipoRelatorio.add("Vendas");
         adpTipoRelatorio.add("Rendimentos");
-        adpTipoRelatorio.add("Despesas");
+        adpTipoRelatorio.add("Despesa");
 
 
         setFragment(relatorioVendaFragment);

@@ -1,9 +1,15 @@
 package com.firedevz.sistemadegestaofinanceira.modelo;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.paperdb.Paper;
 
 public class Usuario {
 
+    public static String PAPER_NAME = "usuarios";
+    public static String LOGGED_USER = "logged_user";
 
     int id;
     String nome,telefone,email,endereco,senha;
@@ -12,7 +18,34 @@ public class Usuario {
 
     }
 
+    public static boolean login(String telefone, String password){
+        List<Usuario> usuarios = Paper.book().read(PAPER_NAME, new ArrayList<Usuario>());
+        for (Usuario usuario: usuarios) {
+            if(usuario.telefone.equals(telefone) && usuario.senha.equals(password)){
+                Paper.book().write(LOGGED_USER, usuario);
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public static boolean exists(String telefone){
+        List<Usuario> usuarios = Paper.book().read(PAPER_NAME, new ArrayList<Usuario>());
+        for (Usuario usuario: usuarios) {
+            if(usuario.telefone.equals(telefone)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean register(Usuario usuario){
+        usuario.id = java.lang.System.identityHashCode(usuario);
+        List<Usuario> usuarios = Paper.book().read(PAPER_NAME, new ArrayList<Usuario>());
+        usuarios.add(usuario);
+        Paper.book().write(PAPER_NAME, usuarios);
+        return true;
+    }
 
     public Usuario(int _id, String _Telefone,String _Nome, String _Email, String _Endereco,String _Senha){
         this.id = _id;

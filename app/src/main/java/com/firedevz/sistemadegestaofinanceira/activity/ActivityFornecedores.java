@@ -1,8 +1,6 @@
 package com.firedevz.sistemadegestaofinanceira.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -25,25 +23,25 @@ import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaFornecedorAdapter;
-import com.firedevz.sistemadegestaofinanceira.modelo.Fornecedores;
-import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
+import com.firedevz.sistemadegestaofinanceira.modelo.Fornecedor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
-public class ActivityFornecedores extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
-    private List<Fornecedores> listaFornecedor = new ArrayList<>();
+public class ActivityFornecedores extends AppCompatActivity implements SearchView.OnQueryTextListener {
+
+    Fornecedor fornecedor = new Fornecedor();
+    private List<Fornecedor> listaFornecedor = new ArrayList<>();
     private ListaFornecedorAdapter listaFornecedorAdapter;
     private ArrayAdapter<String> adpTipoFornecedor;
     private RecyclerView recyclerView;
     private Toolbar toolbarFonecedor;
-    private FloatingActionButton BtnAdicionarFornecedor,floatBDeleteFornecedor;
 
-    DatabaseHelper db = new DatabaseHelper(this);
-
-    Fornecedores fornecedores = new Fornecedores();
+//    DatabaseHelper db = new DatabaseHelper(this);
+    private FloatingActionButton BtnAdicionarFornecedor, floatBDeleteFornecedor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +53,17 @@ public class ActivityFornecedores extends AppCompatActivity implements SearchVie
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewFornecedores);
         BtnAdicionarFornecedor = (FloatingActionButton) findViewById(R.id.BtnAdicionarFornecedor);
-        floatBDeleteFornecedor= (FloatingActionButton) findViewById(R.id.floatBDeleteFornecedor);
+        floatBDeleteFornecedor = (FloatingActionButton) findViewById(R.id.floatBDeleteFornecedor);
 
-        listaFornecedorAdapter = new ListaFornecedorAdapter(this,listaFornecedor);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
+        listaFornecedor = Fornecedor.list();
+        listaFornecedorAdapter = new ListaFornecedorAdapter(this, listaFornecedor);
         recyclerView.setAdapter(listaFornecedorAdapter);
-
-        listaFornecedores();
-
 
         BtnAdicionarFornecedor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,8 +85,7 @@ public class ActivityFornecedores extends AppCompatActivity implements SearchVie
                 final EditText edtTipoProdutoFornecedor = (EditText) vi.findViewById(R.id.edtTipoProdutoFornecedor);
 
 
-
-                adpTipoFornecedor = new ArrayAdapter<String>(ActivityFornecedores.this,android.R.layout.simple_spinner_item);
+                adpTipoFornecedor = new ArrayAdapter<String>(ActivityFornecedores.this, android.R.layout.simple_spinner_item);
                 adpTipoFornecedor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnTipoFornecedor.setAdapter(adpTipoFornecedor);
 
@@ -107,19 +102,14 @@ public class ActivityFornecedores extends AppCompatActivity implements SearchVie
                         String enderecoFornecedor = edtEnderecoFornecedor.getText().toString();
                         String tipoFornecedor = (String) spnTipoFornecedor.getSelectedItem();
                         String tipoProdutoFornecedor = edtTipoProdutoFornecedor.getText().toString();
-                        ;
+                        Fornecedor fornecedor = new Fornecedor(nomeFornecedor, telefoneFornecedor, emailFornecedor, enderecoFornecedor, tipoFornecedor, tipoProdutoFornecedor);
 
-                        //String nome_conf = contas.getNomeConta()
-                        // if (validarFormulario()) {
-                        // Toast.makeText(activityListaProdutos.this, "Produto adicionado com Sucesso", Toast.LENGTH_LONG).show();
-                        if (db.addFornecedor(new Fornecedores(nomeFornecedor, telefoneFornecedor, emailFornecedor, enderecoFornecedor, tipoFornecedor, tipoProdutoFornecedor))) {
+                        if (Fornecedor.register(fornecedor)) {
                             Toast.makeText(ActivityFornecedores.this, "Fornecedor adicionado com Sucesso", Toast.LENGTH_LONG).show();
-                            listaFornecedores();
+                            listaFornecedor = Fornecedor.list();
+                            listaFornecedorAdapter = new ListaFornecedorAdapter(ActivityFornecedores.this, listaFornecedor);
+                            recyclerView.setAdapter(listaFornecedorAdapter);
                         }
-//                        else {
-//                            // inicio.hideProgressDialog();
-//                            Toast.makeText(activityListaProdutos.this, "Preencha Todos os Campos obrigatorios", Toast.LENGTH_LONG).show();
-//                        }
 
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -168,12 +158,11 @@ public class ActivityFornecedores extends AppCompatActivity implements SearchVie
     @Override
     public boolean onQueryTextChange(String newText) {
         newText = newText.toLowerCase();
-        ArrayList<Fornecedores> newList = new ArrayList<>();
-        for (Fornecedores fornecedores : listaFornecedor)
-        {
-            String name = fornecedores.getNomeFornecedor().toLowerCase();
-            if(name.contains(newText)){
-                newList.add(fornecedores);
+        ArrayList<Fornecedor> newList = new ArrayList<>();
+        for (Fornecedor fornecedor : listaFornecedor) {
+            String name = fornecedor.getNomeFornecedor().toLowerCase();
+            if (name.contains(newText)) {
+                newList.add(fornecedor);
             }
         }
 
@@ -183,10 +172,12 @@ public class ActivityFornecedores extends AppCompatActivity implements SearchVie
 
     public void listaFornecedores() {
 
-        Cursor dados = db.listaTodosFornecedores();
+
+
+        /*Cursor dados = db.listaTodosFornecedores();
 
         if (dados.getCount() == 0) {
-            Toast.makeText(this, "Não existem Fornecedores Registrados", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Não existem Fornecedor Registrados", Toast.LENGTH_LONG).show();
         } else {
             while (dados.moveToNext()) {
                 String nomeFornecedor = dados.getString(1);
@@ -196,13 +187,11 @@ public class ActivityFornecedores extends AppCompatActivity implements SearchVie
                 String tipoFornecedor = dados.getString(5);
                 String tipoProdutoFornecedor = dados.getString(6);
 
-                Fornecedores listaiten = new Fornecedores(nomeFornecedor, telefoneFornecedor, emailFornecedor,enderecoFornecedor,tipoFornecedor,tipoProdutoFornecedor);
+                Fornecedor listaiten = new Fornecedor(nomeFornecedor, telefoneFornecedor, emailFornecedor,enderecoFornecedor,tipoFornecedor,tipoProdutoFornecedor);
                 listaFornecedor.add(listaiten);
             }
-        }
+        }*/
     }
-
-
 
 
 ///Fim//////

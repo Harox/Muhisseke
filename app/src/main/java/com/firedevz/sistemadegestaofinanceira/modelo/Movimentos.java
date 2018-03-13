@@ -2,6 +2,8 @@ package com.firedevz.sistemadegestaofinanceira.modelo;
 
 public class Movimentos {
 
+    public String PAPER_NAME = "movimentos";
+
     int idMovimento;
     String contaMovimento;
     float valorMovimento;

@@ -3,32 +3,20 @@ package com.firedevz.sistemadegestaofinanceira.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.activity.ActivityFornecedores;
-import com.firedevz.sistemadegestaofinanceira.modelo.Fornecedores;
+import com.firedevz.sistemadegestaofinanceira.modelo.Fornecedor;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -36,7 +24,7 @@ import java.util.List;
 
 public class ListaFornecedorAdapter extends RecyclerView.Adapter<ListaFornecedorAdapter.ViewHolder> {
 
-    private List<Fornecedores> fornecedores;
+    private List<Fornecedor> fornecedores;
     private ArrayAdapter<String> adpTipoFornecedor;
     DatabaseHelper db;
 
@@ -63,11 +51,11 @@ public class ListaFornecedorAdapter extends RecyclerView.Adapter<ListaFornecedor
 
     }
 
-    public ListaFornecedorAdapter(List<Fornecedores> fornecedores) {
+    public ListaFornecedorAdapter(List<Fornecedor> fornecedores) {
         this.fornecedores = fornecedores;
     }
 
-    public ListaFornecedorAdapter( Context context,List<Fornecedores> fornecedores) {
+    public ListaFornecedorAdapter( Context context,List<Fornecedor> fornecedores) {
         this.fornecedores = fornecedores;
         this.context = context;
     }
@@ -81,7 +69,7 @@ public class ListaFornecedorAdapter extends RecyclerView.Adapter<ListaFornecedor
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Fornecedores listItem = fornecedores.get(position);
+        final Fornecedor listItem = fornecedores.get(position);
         holder.txtNomeFornecedor.setText(listItem.getNomeFornecedor());
         holder.txtContactoFornecedor.setText(listItem.getContactoFornecedor());
         holder.txtEmailFornecedor.setText(listItem.getEmailFornecedro());
@@ -171,7 +159,7 @@ public class ListaFornecedorAdapter extends RecyclerView.Adapter<ListaFornecedor
         }
     }
 
-    public void setFilter(ArrayList<Fornecedores> newList){
+    public void setFilter(ArrayList<Fornecedor> newList){
         fornecedores = new ArrayList<>();
         fornecedores.addAll(newList);
         notifyDataSetChanged();

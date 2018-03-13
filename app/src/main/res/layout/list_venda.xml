@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayConta"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#C42178"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtValorPreco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="400Mt" />
+
+    <TextView
+        android:id="@+id/txtCliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="Cliente" />
+
+
+</LinearLayout>

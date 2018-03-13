@@ -16,30 +16,26 @@ import com.firedevz.sistemadegestaofinanceira.LoginGmail;
 import com.firedevz.sistemadegestaofinanceira.MenuPrincipal;
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.ResetSenha;
-//import com.firedevz.sistemadegestaofinanceira.fragments.Validacoes;
+import com.firedevz.sistemadegestaofinanceira.modelo.Usuario;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
+//import com.firedevz.sistemadegestaofinanceira.fragments.Validacoes;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final AppCompatActivity activity = LoginActivity.this;
-
-    private EditText edtTelefoneLogin,edtSenhaLogin;
-    private Button btnGuardarSenha,btnEntrar,btnFacebook,btnGmail;
-    private TextView tv5,tvCriarConta;
-
+    InicioActivity inicio = new InicioActivity();
+    private EditText edtTelefoneLogin, edtSenhaLogin;
+    private Button btnGuardarSenha, btnEntrar, btnFacebook, btnGmail;
+    private TextView tv5, tvCriarConta;
     private TextInputLayout textInputLayoutEmail;
     private TextInputLayout textInputLayoutSenha;
     private NestedScrollView nestedScrollView;
-
-   // private Validacoes validacoes;
+    // private Validacoes validacoes;
     private DatabaseHelper db;
 
-    InicioActivity inicio = new InicioActivity();
-
-
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         inicializaComponentes();
@@ -49,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void inicializaObjectos() {
         db = new DatabaseHelper(activity);
-       // validacoes = new Validacoes(activity);
+        // validacoes = new Validacoes(activity);
     }
 
     private void eventoClikes() {
@@ -67,60 +63,71 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //login
         btnEntrar.setOnClickListener(this);
-        }
+    }
 
 
     private void inicializaComponentes() {
-        edtTelefoneLogin=(EditText)findViewById(R.id.edtTelefoneLogin);
-        edtSenhaLogin=(EditText)findViewById(R.id.edtSenhaLogin);
-        btnEntrar=(Button)findViewById(R.id.btnEntrar);
-        btnGuardarSenha=(Button)findViewById(R.id.btnGuardarSenha);
-        btnFacebook=(Button)findViewById(R.id.btnFacebook);
-        btnGmail=(Button)findViewById(R.id.btnGmail);
-        tv5=(TextView)findViewById(R.id.tv5);
-        tvCriarConta=(TextView)findViewById(R.id.tvCriarConta);
+        edtTelefoneLogin = (EditText) findViewById(R.id.edtTelefoneLogin);
+        edtSenhaLogin = (EditText) findViewById(R.id.edtSenhaLogin);
+        btnEntrar = (Button) findViewById(R.id.btnEntrar);
+        btnGuardarSenha = (Button) findViewById(R.id.btnGuardarSenha);
+        btnFacebook = (Button) findViewById(R.id.btnFacebook);
+        btnGmail = (Button) findViewById(R.id.btnGmail);
+        tv5 = (TextView) findViewById(R.id.tv5);
+        tvCriarConta = (TextView) findViewById(R.id.tvCriarConta);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnEntrar:
-                verifyFromSQLite();
+                String telefone = edtTelefoneLogin.getText().toString();
+                String email = edtTelefoneLogin.getText().toString();
+                if (Usuario.login(telefone, email)) {
+                    Intent intent = new Intent(getApplicationContext(), MenuPrincipal.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LoginActivity.this, "Número ou Senha Incorrectos, verifique e tente novamente", Toast.LENGTH_LONG).show();
+                }
+//                verifyFromSQLite();
                 break;
             case R.id.tvCriarConta:
-                Intent it = new Intent(getApplicationContext(),RegistarActivity.class);
+                Intent it = new Intent(getApplicationContext(), RegistarActivity.class);
                 startActivity(it);
                 break;
             case R.id.btnFacebook:
-                Intent it1 = new Intent(getApplicationContext(),LoginFacebook.class);
+                Intent it1 = new Intent(getApplicationContext(), LoginFacebook.class);
                 startActivity(it1);
                 break;
             case R.id.btnGmail:
-                Intent it2 = new Intent(getApplicationContext(),LoginGmail.class);
+                Intent it2 = new Intent(getApplicationContext(), LoginGmail.class);
                 startActivity(it2);
                 break;
             case R.id.tv5:
-                Intent it3 = new Intent(getApplicationContext(),ResetSenha.class);
+                Intent it3 = new Intent(getApplicationContext(), ResetSenha.class);
                 startActivity(it3);
                 break;
         }
     }
 
-    private void verifyFromSQLite(){
+    private void verifyFromSQLite() {
 
-        if(db.verificaUsuario(edtTelefoneLogin.getText().toString().trim()
-            , edtSenhaLogin.getText().toString().trim())){
-            Intent it = new Intent(getApplicationContext(),MenuPrincipal.class);
+        if (db.verificaUsuario(edtTelefoneLogin.getText().toString().trim()
+                , edtSenhaLogin.getText().toString().trim())) {
+            Intent it = new Intent(getApplicationContext(), MenuPrincipal.class);
             startActivity(it);
-        }else {
-        //    Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show;
+        } else {
+            //    Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show;
             Toast.makeText(LoginActivity.this, "Celular ou Senha Incorrectos, verifique e tente novamente", Toast.LENGTH_LONG).show();
             emptyInputEdt();
         }
     }
 
-    private void emptyInputEdt(){
+    private void emptyInputEdt() {
         edtTelefoneLogin.setText(null);
         edtSenhaLogin.setText(null);
     }

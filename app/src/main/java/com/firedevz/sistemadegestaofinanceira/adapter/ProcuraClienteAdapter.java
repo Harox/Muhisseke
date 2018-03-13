@@ -9,8 +9,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Clientes;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +18,20 @@ import java.util.List;
  * Created by PUDENTE on 2/25/2018.
  */
 
-public class ProcuraClienteAdapter extends ArrayAdapter<Clientes> {
+public class ProcuraClienteAdapter extends ArrayAdapter<Cliente> {
 
     Context context;
     int resource, textViewResourceId;
-    List<Clientes> items, tempItems, suggestions;
+    List<Cliente> items, tempItems, suggestions;
 
-    public ProcuraClienteAdapter(Context context, int resource, int textViewResourceId, List<Clientes> items) {
+    public ProcuraClienteAdapter(Context context, int resource, int textViewResourceId, List<Cliente> items) {
         super(context, resource, textViewResourceId, items);
         this.context = context;
         this.resource = resource;
         this.textViewResourceId = textViewResourceId;
         this.items = items;
-        tempItems = new ArrayList<Clientes>(items); // this makes the difference.
-        suggestions = new ArrayList<Clientes>();
+        tempItems = new ArrayList<Cliente>(items); // this makes the difference.
+        suggestions = new ArrayList<Cliente>();
     }
 
 
@@ -43,11 +42,11 @@ public class ProcuraClienteAdapter extends ArrayAdapter<Clientes> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.linha_categoria, parent, false);
         }
-        Clientes clientes = items.get(position);
-        if (clientes != null) {
+        Cliente cliente = items.get(position);
+        if (cliente != null) {
             TextView lblName = (TextView) view.findViewById(R.id.lbl_name);
             if (lblName != null)
-                lblName.setText(clientes.getNome());
+                lblName.setText(cliente.getNome());
         }
         return view;
     }
@@ -64,7 +63,7 @@ public class ProcuraClienteAdapter extends ArrayAdapter<Clientes> {
     Filter nameFilter = new Filter() {
         @Override
         public CharSequence convertResultToString(Object resultValue) {
-            String str = ((Clientes) resultValue).getNome();
+            String str = ((Cliente) resultValue).getNome();
             return str;
         }
 
@@ -72,9 +71,9 @@ public class ProcuraClienteAdapter extends ArrayAdapter<Clientes> {
         protected FilterResults performFiltering(CharSequence constraint) {
             if (constraint != null) {
                 suggestions.clear();
-                for (Clientes clientes : tempItems) {
-                    if (clientes.getNome().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        suggestions.add(clientes);
+                for (Cliente cliente : tempItems) {
+                    if (cliente.getNome().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        suggestions.add(cliente);
                     }
                 }
                 FilterResults filterResults = new FilterResults();
@@ -88,11 +87,11 @@ public class ProcuraClienteAdapter extends ArrayAdapter<Clientes> {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            List<Clientes> filterList = (ArrayList<Clientes>) results.values;
+            List<Cliente> filterList = (ArrayList<Cliente>) results.values;
             if (results != null && results.count > 0) {
                 clear();
-                for (Clientes clientes : filterList) {
-                    add(clientes);
+                for (Cliente cliente : filterList) {
+                    add(cliente);
                     notifyDataSetChanged();
                 }
             }

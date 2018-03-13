@@ -1,10 +1,19 @@
 package com.firedevz.sistemadegestaofinanceira.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.paperdb.Paper;
+
 /**
  * Created by PUDENTE on 2/1/2018.
  */
 
-public class Fornecedores {
+public class Fornecedor {
+
+    public static String PAPER_NAME = "fornecedores";
+
+    int Id;
     int idFornecedor;
     String nomeFornecedor;
     String contactoFornecedor;
@@ -14,11 +23,24 @@ public class Fornecedores {
     String tipoProdutoFornecedro;
 
 
-    public Fornecedores() {
+    public Fornecedor() {
 
     }
 
-    public Fornecedores(String nomeFornecedor, String contactoFornecedor, String emailFornecedro, String enderecoFornecedro, String tipoFornecedro, String tipoProdutoFornecedro) {
+    public static List<Fornecedor> list(){
+        List<Fornecedor> fornecedores = Paper.book().read(PAPER_NAME, new ArrayList<Fornecedor>());
+        return fornecedores;
+    }
+
+    public static boolean register(Fornecedor fornecedor){
+        fornecedor.Id = java.lang.System.identityHashCode(fornecedor);
+        List<Fornecedor> fornecedores = Paper.book().read(PAPER_NAME, new ArrayList<Fornecedor>());
+        fornecedores.add(fornecedor);
+        Paper.book().write(PAPER_NAME, fornecedores);
+        return true;
+    }
+
+    public Fornecedor(String nomeFornecedor, String contactoFornecedor, String emailFornecedro, String enderecoFornecedro, String tipoFornecedro, String tipoProdutoFornecedro) {
         this.nomeFornecedor = nomeFornecedor;
         this.contactoFornecedor = contactoFornecedor;
         this.emailFornecedro = emailFornecedro;
@@ -27,7 +49,7 @@ public class Fornecedores {
         this.tipoProdutoFornecedro = tipoProdutoFornecedro;
     }
 
-    public Fornecedores(String nome,String nomeFornecedor, String contactoFornecedor, String emailFornecedro, String enderecoFornecedro, String tipoFornecedro, String tipoProdutoFornecedro) {
+    public Fornecedor(String nome, String nomeFornecedor, String contactoFornecedor, String emailFornecedro, String enderecoFornecedro, String tipoFornecedro, String tipoProdutoFornecedro) {
         this.nomeFornecedor = nome;
         this.nomeFornecedor = nomeFornecedor;
         this.contactoFornecedor = contactoFornecedor;
@@ -37,7 +59,7 @@ public class Fornecedores {
         this.tipoProdutoFornecedro = tipoProdutoFornecedro;
     }
 
-    public Fornecedores(int idFornecedor, String nomeFornecedor, String contactoFornecedor, String emailFornecedro, String enderecoFornecedro, String tipoFornecedro, String tipoProdutoFornecedro) {
+    public Fornecedor(int idFornecedor, String nomeFornecedor, String contactoFornecedor, String emailFornecedro, String enderecoFornecedro, String tipoFornecedro, String tipoProdutoFornecedro) {
         this.idFornecedor = idFornecedor;
         this.nomeFornecedor = nomeFornecedor;
         this.contactoFornecedor = contactoFornecedor;
@@ -107,7 +129,7 @@ public class Fornecedores {
 
     @Override
     public String toString() {
-        return "Fornecedores{" +
+        return "Fornecedor{" +
                 "idFornecedor=" + idFornecedor +
                 ", nomeFornecedor='" + nomeFornecedor + '\'' +
                 ", contactoFornecedor='" + contactoFornecedor + '\'' +

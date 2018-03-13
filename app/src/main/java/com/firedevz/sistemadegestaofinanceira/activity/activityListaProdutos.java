@@ -28,19 +28,22 @@ import android.widget.Toast;
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaProdutosAdapter;
 import com.firedevz.sistemadegestaofinanceira.adapter.ProcuraProdutosAdapter;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Produto;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class activityListaProdutos extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
-    DatabaseHelper db = new DatabaseHelper(this);
-    Produtos produtos = new Produtos();
-    private List<Produtos> listaProdutos = new ArrayList<>();
+    //DatabaseHelper db = new DatabaseHelper(this);
+    Produto produto = new Produto();
+    private List<Produto> listaProdutos = new ArrayList<>();
     private ListaProdutosAdapter listaProdutosAdapter;
     private ProcuraProdutosAdapter procuraProdutosAdapter;
     private ArrayAdapter<String> adpCategoria;
@@ -67,13 +70,15 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
         BtnAdicionarProdut = findViewById(R.id.BtnAdicionarProdut);
         floatBDeleteProduto = findViewById(R.id.floatBDeleteProduto);
 
-        listaProdutos();
-        listaProdutosAdapter = new ListaProdutosAdapter(this, listaProdutos);
+        //listaProdutos();
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        listaProdutos = Produto.list();
+        listaProdutosAdapter = new ListaProdutosAdapter(this, listaProdutos);
         recyclerView.setAdapter(listaProdutosAdapter);
 
         BtnAdicionarProdut.setOnClickListener(new View.OnClickListener() {
@@ -98,9 +103,9 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                 final Spinner spnUnidade = (Spinner) vi.findViewById(R.id.spnUnidade);
                 final AutoCompleteTextView edtNomeProduto = (AutoCompleteTextView) vi.findViewById(R.id.edtNomeProduto);
 
-                List<Produtos> listaProdutosAux = procuraProtos();
+                List<Produto> listaProdutoAuxes = Produto.list();
                 edtNomeProduto.setThreshold(1);
-                procuraProdutosAdapter = new ProcuraProdutosAdapter(activityListaProdutos.this, R.layout.activity_lista_produtos, R.layout.linha_categoria, listaProdutosAux);
+                procuraProdutosAdapter = new ProcuraProdutosAdapter(activityListaProdutos.this, R.layout.activity_lista_produtos, R.layout.linha_categoria, listaProdutoAuxes);
                 edtNomeProduto.setAdapter(procuraProdutosAdapter);
 
 
@@ -161,10 +166,20 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                             Toast.makeText(activityListaProdutos.this, "preencha todos os campos Vazios ", Toast.LENGTH_LONG).show();
 
                         } else {
-                            Produtos produto = new Produtos(nome, data, categoria, prazo, Float.parseFloat(preco), Float.parseFloat(precoVenda), Integer.parseInt(quantidade), Unidade, Integer.parseInt(estoqueMinimo), nomeFornecedor);
-                            db.addProduto(produto);
-                            Toast.makeText(activityListaProdutos.this, "Produto adicionado com Sucesso", Toast.LENGTH_LONG).show();
-                            listaProdutos = listaProdutos();
+                            DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+                            Date datePrazo = Calendar.getInstance().getTime();
+                            Date dateEntrada = Calendar.getInstance().getTime();
+                            try {
+                                dateEntrada = sourceFormat.parse(data);
+                                datePrazo = sourceFormat.parse(prazo);
+                            } catch (ParseException e) {
+//                                e.printStackTrace();
+                            }
+                            Produto produto = new Produto(nome, dateEntrada, categoria, datePrazo, Float.parseFloat(preco), Float.parseFloat(precoVenda), Integer.parseInt(quantidade), Unidade, Integer.parseInt(estoqueMinimo), nomeFornecedor);
+                            Produto.register(produto);
+                            Toast.makeText(activityListaProdutos.this, "ProdutoVenda adicionado com Sucesso", Toast.LENGTH_LONG).show();
+
+                            listaProdutos = Produto.list();
                             listaProdutosAdapter = new ListaProdutosAdapter(activityListaProdutos.this, listaProdutos);
                             recyclerView.setAdapter(listaProdutosAdapter);
 
@@ -191,21 +206,21 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
 
 
         floatBDeleteProduto.setOnClickListener(new View.OnClickListener() {
-            Produtos produtos = new Produtos();
+            Produto produto = new Produto();
 
             @Override
             public void onClick(View v) {
 
-                int code = produtos.getId();
+                int code = this.produto.getId();
 
                 String codigo = String.valueOf(Integer.parseInt(String.valueOf(code)));
-                Toast.makeText(activityListaProdutos.this, "Selecione um Produto", Toast.LENGTH_LONG).show();
+                Toast.makeText(activityListaProdutos.this, "Selecione um ProdutoVenda", Toast.LENGTH_LONG).show();
 
-                Produtos produtos = new Produtos();
-                produtos.setId(Integer.parseInt(codigo));
-                db.apagarProduto(produtos.getId());
+                Produto produto = new Produto();
+                produto.setId(Integer.parseInt(codigo));
+//                db.apagarProduto(produto.getId());
 
-                Toast.makeText(activityListaProdutos.this, "Produto Excluido com Sucesso", Toast.LENGTH_LONG).show();
+                Toast.makeText(activityListaProdutos.this, "ProdutoVenda Excluido com Sucesso", Toast.LENGTH_LONG).show();
 
                 //listaProdutos();
             }
@@ -240,16 +255,16 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
     @Override
     public boolean onQueryTextChange(String newText) {
         newText = newText.toLowerCase();
-        ArrayList<Produtos> newList = new ArrayList<>();
-        for (Produtos produtos : listaProdutos) {
-            String name = produtos.getNome().toLowerCase();
-            String categoria = produtos.getCategoria().toLowerCase();
-            String preco = String.valueOf(produtos.getPreco());
+        ArrayList<Produto> newList = new ArrayList<>();
+        for (Produto produto : listaProdutos) {
+            String name = produto.getNome().toLowerCase();
+            String categoria = produto.getCategoria().toLowerCase();
+            String preco = String.valueOf(produto.getPreco());
             if (name.contains(newText)
                             || categoria.contains(newText)
                             || preco.contains(newText)
                     ) {
-                newList.add(produtos);
+                newList.add(produto);
             }
         }
 
@@ -257,11 +272,11 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
         return true;
     }
 
-    public List<Produtos> listaProdutos() {
+    /*public List<ProdutoVenda> listaProdutos() {
         listaProdutos = new ArrayList<>();
         Cursor dados = db.listaTodosProdutos();
         if (dados.getCount() == 0) {
-            Toast.makeText(this, "Não existem Produtos no estoque", Toast.LENGTH_LONG);
+            Toast.makeText(this, "Não existem ProdutoVenda no estoque", Toast.LENGTH_LONG);
         } else {
             while (dados.moveToNext()) {
                 int idProduto = dados.getInt(0);
@@ -271,35 +286,13 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                 String prazo = dados.getString(4);
                 String categoria = dados.getString(3);
 
-                Produtos listaiten = new Produtos(idProduto, nomeProduto, precoProduto, quantidadeProdut, prazo, categoria);
+                ProdutoVenda listaiten = new ProdutoVenda(idProduto, nomeProduto, precoProduto, quantidadeProdut, prazo, categoria);
                 listaProdutos.add(listaiten);
             }
         }
         return listaProdutos;
-    }
+    }*/
 
 
-    public List<Produtos> procuraProtos() {
-        List<Produtos> listaPro = new ArrayList<>();
-        db = new DatabaseHelper(this);
-        Cursor dados = db.listaTodosProdutos();
-        if (dados.getCount() == 0) {
-            Toast.makeText(this, "Nenhum Produto", Toast.LENGTH_LONG);
-        } else {
-            while (dados.moveToNext()) {
-                int idProduto = dados.getInt(0);
-                String nomeProduto = dados.getString(1);
-                float precoProduto = Float.parseFloat(dados.getString(6));
-                int quantidadeProdut = Integer.parseInt(dados.getString(7));
-                String prazo = dados.getString(4);
-                String categoria = dados.getString(3);
 
-                Produtos listaiten = new Produtos(idProduto, nomeProduto, precoProduto, quantidadeProdut, prazo, categoria);
-                listaPro.add(listaiten);
-            }
-        }
-        return listaPro;
-
-
-    }
 }

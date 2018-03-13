@@ -14,26 +14,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Produto;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
 public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder> {
 
-    DatabaseHelper db;
+//    DatabaseHelper db;
     Context context;
     View vi;
     LayoutInflater li;
-    private List<Produtos> produtos;
+    private List<Produto> produtos;
 
-    public ListaProdutosAdapter(List<Produtos> produtos) {
+    public ListaProdutosAdapter(List<Produto> produtos) {
         this.produtos = produtos;
     }
 
-    public ListaProdutosAdapter(Context context, List<Produtos> produtos) {
+    public ListaProdutosAdapter(Context context, List<Produto> produtos) {
         this.produtos = produtos;
         this.context = context;
     }
@@ -46,11 +51,11 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Produtos listItem = produtos.get(position);
+        final Produto listItem = produtos.get(position);
         holder.txtNome.setText(listItem.getNome());
         holder.txtPreco.setText(listItem.getPreco() + "MT");
         holder.txtQuantidade.setText(listItem.getQuantidade() + "");
-        db = new DatabaseHelper(context);
+//        db = new DatabaseHelper(context);
         holder.lnLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,11 +74,11 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
                 buttonDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (db.produtoHaveStock(listItem.getId())) {
+                        if (Produto.exists(position)) {
                             Toast.makeText(holder.lnLay.getContext(), "Não pode apagar um produto com stock", Toast.LENGTH_LONG).show();
                             alertDialogPopUpEscolha.dismiss();
                         } else {
-                            db.apagarProduto(listItem.getId());
+                            Produto.delete(position);
                             removeAt(position);
                             alertDialogPopUpEscolha.dismiss();
                         }
@@ -93,17 +98,18 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
                         // set prompts.xml to alertdialog builder
                         alertDialogBuilder.setView(vi);
 
-                        final EditText nomeProduto = (EditText) vi.findViewById(R.id.edtNomePopup);
-                        final EditText quantProduto = (EditText) vi.findViewById(R.id.edtQuantidadePopup);
-                        final EditText precoProduto = (EditText) vi.findViewById(R.id.edtPrecoPopup);
-                        final EditText prazoProduto = (EditText) vi.findViewById(R.id.edtprazoPopup);
+                        final EditText nomeProduto = vi.findViewById(R.id.edtNomePopup);
+                        final EditText quantProduto = vi.findViewById(R.id.edtQuantidadePopup);
+                        final EditText precoProduto = vi.findViewById(R.id.edtPrecoPopup);
+                        final EditText prazoProduto = vi.findViewById(R.id.edtprazoPopup);
 
                         Toast.makeText(context, listItem.getNome(), Toast.LENGTH_SHORT).show();
 
                         nomeProduto.setText(listItem.getNome());
                         quantProduto.setText(listItem.getQuantidade() + "");
                         precoProduto.setText(listItem.getPreco() + "");
-                        prazoProduto.setText(listItem.getPrazo() + "");
+                        String prazo = new SimpleDateFormat("dd/MM/yyyy").format(listItem.getPrazo());
+                        prazoProduto.setText(prazo + "");
 
                         // set dialog message
                         alertDialogBuilder.setCancelable(false).setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
@@ -113,10 +119,21 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
                                 float PrecoPro = Float.parseFloat(precoProduto.getText().toString());
                                 String prazoPro = prazoProduto.getText().toString();
 
+                                listItem.setNome(nomePro);
+                                listItem.setQuantidade(quantPro);
+                                listItem.setPreco(PrecoPro);
 
-                                String nome_conf = listItem.getNome();
-                                if (db.actualizaProduto(nome_conf, nomePro, quantPro, PrecoPro, prazoPro)) {
-                                    Toast.makeText(context, "Produto Actualizado", Toast.LENGTH_SHORT).show();
+                                DateFormat sourceFormat = new SimpleDateFormat("dd/MM/yyyy");
+                                Date datePrazo = Calendar.getInstance().getTime();
+                                try {
+                                    datePrazo = sourceFormat.parse(prazoPro);
+                                } catch (ParseException e) {
+//                                e.printStackTrace();
+                                }
+                                listItem.setPrazo(datePrazo);
+
+                                if (Produto.update(position, listItem)) {
+                                    Toast.makeText(context, "ProdutoVenda Actualizado", Toast.LENGTH_SHORT).show();
 
                                     holder.txtNome.setText(nomePro);
                                     holder.txtPreco.setText(PrecoPro + "MT");
@@ -154,7 +171,7 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
         return produtos.size();
     }
 
-    public void setFilter(ArrayList<Produtos> newList) {
+    public void setFilter(ArrayList<Produto> newList) {
         produtos = new ArrayList<>();
         produtos.addAll(newList);
         notifyDataSetChanged();

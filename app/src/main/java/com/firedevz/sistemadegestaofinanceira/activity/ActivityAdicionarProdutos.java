@@ -16,7 +16,7 @@
 //import android.widget.Toast;
 //
 //import com.firedevz.sistemadegestaofinanceira.R;
-//import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
+//import com.firedevz.sistemadegestaofinanceira.modelo.ProdutoVenda;
 //import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 //
 //import java.util.ArrayList;
@@ -33,7 +33,7 @@
 //
 //    DatabaseHelper db = new DatabaseHelper(this);
 //
-//    private Produtos produtos;
+//    private ProdutoVenda produto;
 //
 //    private ArrayAdapter<String > adpUnidade;
 //    private ArrayAdapter<String > adpCategoria;
@@ -113,8 +113,8 @@
 //
 //
 //            if (validarFormulario()) {
-//                Toast.makeText(ActivityAdicionarProdutos.this, "Produto adicionado com Sucesso", Toast.LENGTH_LONG).show();
-//                db.addProduto(new Produtos(nome, data,categoria, prazo, Float.parseFloat(precoVenda), Float.parseFloat(preco), Integer.parseInt(quantidade), Unidade, Integer.parseInt(estoqueMinimo)));
+//                Toast.makeText(ActivityAdicionarProdutos.this, "ProdutoVenda adicionado com Sucesso", Toast.LENGTH_LONG).show();
+//                db.addProduto(new ProdutoVenda(nome, data,categoria, prazo, Float.parseFloat(precoVenda), Float.parseFloat(preco), Integer.parseInt(quantidade), Unidade, Integer.parseInt(estoqueMinimo)));
 //                limpaCampos();
 //            }
 //

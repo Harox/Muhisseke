@@ -83,7 +83,7 @@
         android:id="@+id/txtTipoProdutoFornecdor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Produto / tipo de produto" />
+        android:text="Produto / tipo de produtoVenda" />
 
     <EditText
         android:id="@+id/edtTipoProdutoFornecedor"

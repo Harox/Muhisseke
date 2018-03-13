@@ -1,29 +1,53 @@
 package com.firedevz.sistemadegestaofinanceira.modelo;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.paperdb.Paper;
+
 public class Rendimento {
 
-    int idDescricao;
+    public static String PAPER_NAME = "rendimentos";
+
+    public static Rendimento getById(int id){
+        List<Rendimento> rendimentos = Paper.book().read(PAPER_NAME, new ArrayList<Rendimento>());
+        for (Rendimento rendimento : rendimentos){
+            if(rendimento.id==id){
+                return rendimento;
+            }
+        }
+        return null;
+    }
+
+    public static boolean register(Rendimento rendimento){
+        rendimento.id = java.lang.System.identityHashCode(rendimento);
+        List<Rendimento> rendimentos = Paper.book().read(PAPER_NAME, new ArrayList<Rendimento>());
+        rendimentos.add(rendimento);
+        Paper.book().write(PAPER_NAME, rendimentos);
+        return true;
+    }
+
+    public static List<Rendimento> list(){
+        List<Rendimento> rendimentos = Paper.book().read(PAPER_NAME, new ArrayList<Rendimento>());
+        return rendimentos;
+    }
+
+    int id;
+    int idConta;
     String descricao;
     double valor;
     String tipo;
     String data;
     String ContaAdicionada;
 
-    public Rendimento(String descricao, double valor, String tipo, String data, String contaAdicionada) {
+    public Rendimento(String descricao, int idConta, double valor, String tipo, String data, String contaAdicionada) {
         this.descricao = descricao;
         this.valor = valor;
         this.tipo = tipo;
+        this.idConta = idConta;
         this.data = data;
         ContaAdicionada = contaAdicionada;
-    }
-
-    public Rendimento(int idDescricao, String descricao, double valor, String tipo, String data) {
-        this.idDescricao = idDescricao;
-        this.descricao = descricao;
-        this.tipo = tipo;
-        this.data = data;
-        this.valor = valor;
     }
 
     public Rendimento(String descricao, double valor, String tipo, String data) {
@@ -32,6 +56,7 @@ public class Rendimento {
         this.data = data;
         this.valor = valor;
     }
+
 
     public Rendimento() {
 
@@ -49,14 +74,6 @@ public class Rendimento {
 
     public void setContaAdicionada(String contaAdicionada) {
         ContaAdicionada = contaAdicionada;
-    }
-
-    public int getIdDescricao() {
-        return idDescricao;
-    }
-
-    public void setIdDescricao(int idDescricao) {
-        this.idDescricao = idDescricao;
     }
 
     public String getDescricao() {

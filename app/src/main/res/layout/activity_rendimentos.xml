@@ -61,6 +61,7 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:background="#C42178"
+            android:visibility="gone"
             android:text="Limpar" />
 
         <Button
@@ -76,6 +77,7 @@
             android:id="@+id/btnExcluir"
             android:layout_width="wrap_content"
             android:layout_margin="4dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#C42178"

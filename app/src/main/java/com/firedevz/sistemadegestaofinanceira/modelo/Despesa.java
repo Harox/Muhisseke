@@ -1,32 +1,53 @@
 package com.firedevz.sistemadegestaofinanceira.modelo;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Despesas {
+import io.paperdb.Paper;
 
+public class Despesa {
+
+    public static String PAPER_NAME = "despesas";
+
+    private int Id;
     private int id_despesa;
     private String descricao_despesa;
     private float valor_despesa;
     private String tipo_despesa;
-    private String conta_Retirada;
+    private int conta_Retirada;
 
-    public Despesas() {
+    public static List<Despesa> list(){
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        return despesas;
     }
 
-    public Despesas(int id_despesa, String descricao_despesa, float valor_despesa, String tipo_despesa) {
+
+    public static boolean register(Despesa despesa){
+        despesa.Id = java.lang.System.identityHashCode(despesa);
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        despesas.add(despesa);
+        Paper.book().write(PAPER_NAME, despesas);
+        return true;
+    }
+
+    public Despesa() {
+    }
+
+    public Despesa(int id_despesa, String descricao_despesa, float valor_despesa, String tipo_despesa) {
         this.id_despesa = id_despesa;
         this.descricao_despesa = descricao_despesa;
         this.valor_despesa = valor_despesa;
         this.tipo_despesa = tipo_despesa;
     }
 
-    public Despesas(String descricao_despesa, float valor_despesa, String tipo_despesa) {
+    public Despesa(String descricao_despesa, float valor_despesa, String tipo_despesa) {
         this.descricao_despesa = descricao_despesa;
         this.valor_despesa = valor_despesa;
         this.tipo_despesa = tipo_despesa;
     }
 
-    public Despesas(String descricao_despesa, float valor_despesa, String tipo_despesa, String contaRetirada) {
+    public Despesa(String descricao_despesa, float valor_despesa, String tipo_despesa, int contaRetirada) {
         this.id_despesa = id_despesa;
         this.descricao_despesa = descricao_despesa;
         this.valor_despesa = valor_despesa;
@@ -43,11 +64,11 @@ public class Despesas {
         this.id_despesa = id_despesa;
     }
 
-    public String getConta_Retirada() {
+    public int getConta_Retirada() {
         return conta_Retirada;
     }
 
-    public void setConta_Retirada(String conta_Retirada) {
+    public void setConta_Retirada(int conta_Retirada) {
         this.conta_Retirada = conta_Retirada;
     }
 
@@ -77,7 +98,7 @@ public class Despesas {
 
     @Override
     public String toString() {
-        return "Despesas{" +
+        return "Despesa{" +
                 "id_despesa=" + id_despesa +
                 ", descricao_despesa='" + descricao_despesa + '\'' +
                 ", valor_despesa=" + valor_despesa +

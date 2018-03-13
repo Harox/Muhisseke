@@ -3,26 +3,20 @@ package com.firedevz.sistemadegestaofinanceira.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaMovimentosAdapter;
-import com.firedevz.sistemadegestaofinanceira.adapter.ListaProdutosAdapter;
 import com.firedevz.sistemadegestaofinanceira.modelo.Movimentos;
-import com.firedevz.sistemadegestaofinanceira.modelo.Produtos;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.ArrayList;

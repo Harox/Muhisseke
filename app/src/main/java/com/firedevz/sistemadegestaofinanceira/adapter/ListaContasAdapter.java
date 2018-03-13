@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Contas;
+import com.firedevz.sistemadegestaofinanceira.modelo.Conta;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.ViewHolder> {
 
-    private List<Contas> cotas;
+    private List<Conta> cotas;
    // DatabaseHelper db;
 
     Context context;
@@ -48,7 +48,7 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
     }
 
 
-    public ListaContasAdapter(Context context, List<Contas> contas) {
+    public ListaContasAdapter(Context context, List<Conta> contas) {
         this.cotas = contas;
         this.context = context;
     }
@@ -60,7 +60,7 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Contas listItem = cotas.get(position);
+        final Conta listItem = cotas.get(position);
         holder.txtNomeConta.setText(listItem.getNomeConta());
         holder.txtSaldoConta.setText(listItem.getValorConta() + "MT");
         holder.txtTipoConta.setText(listItem.getTipoConta()+"");

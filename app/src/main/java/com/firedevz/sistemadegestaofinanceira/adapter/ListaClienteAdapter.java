@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Clientes;
+import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ListaClienteAdapter extends RecyclerView.Adapter<ListaClienteAdapter.ViewHolder> {
 
-    private List<Clientes> clientes;
+    private List<Cliente> clientes;
     DatabaseHelper db;
 
     private Activity activity;
@@ -50,7 +50,7 @@ public class ListaClienteAdapter extends RecyclerView.Adapter<ListaClienteAdapte
 
     }
 
-    public ListaClienteAdapter(Activity activity, List<Clientes> clientes) {
+    public ListaClienteAdapter(Activity activity, List<Cliente> clientes) {
         this.clientes = clientes;
         this.activity = activity;
     }
@@ -64,7 +64,7 @@ public class ListaClienteAdapter extends RecyclerView.Adapter<ListaClienteAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Clientes listItem = clientes.get(position);
+        final Cliente listItem = clientes.get(position);
         holder.txtNomeCliente.setText(listItem.getNome());
         holder.txtContactoCliente.setText(listItem.getTelefone());
         holder.txtEmailCliente.setText(listItem.getEmail());
@@ -111,7 +111,7 @@ public class ListaClienteAdapter extends RecyclerView.Adapter<ListaClienteAdapte
         }
     }
 
-    public void setFilter(ArrayList<Clientes> newList){
+    public void setFilter(ArrayList<Cliente> newList){
         clientes = new ArrayList<>();
         clientes.addAll(newList);
         notifyDataSetChanged();

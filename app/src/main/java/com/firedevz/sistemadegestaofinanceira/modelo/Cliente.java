@@ -1,8 +1,14 @@
 package com.firedevz.sistemadegestaofinanceira.modelo;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Clientes {
+import io.paperdb.Paper;
+
+public class Cliente {
+
+    public static String PAPER_NAME = "clientes";
 
     int Id;
     String nome;
@@ -12,7 +18,30 @@ public class Clientes {
     int nuitCliente;
     float divida;
 
-    public Clientes(String nome, String telefone, String email, String morada, int nuitCliente, float divida) {
+    public static List<Cliente> list(){
+        List<Cliente> clientes = Paper.book().read(PAPER_NAME, new ArrayList<Cliente>());
+        return clientes;
+    }
+
+    public static Cliente getById(int id){
+        List<Cliente> clientes = Paper.book().read(PAPER_NAME, new ArrayList<Cliente>());
+        for (Cliente cliente : clientes){
+            if(cliente.Id==id){
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    public static boolean register(Cliente cliente){
+        cliente.Id = java.lang.System.identityHashCode(cliente);
+        List<Cliente> clientes = Paper.book().read(PAPER_NAME, new ArrayList<Cliente>());
+        clientes.add(cliente);
+        Paper.book().write(PAPER_NAME, clientes);
+        return true;
+    }
+
+    public Cliente(String nome, String telefone, String email, String morada, int nuitCliente, float divida) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -22,7 +51,7 @@ public class Clientes {
     }
 
 
-    public Clientes(String nome, String telefone, String email, String morada, int nuitCliente) {
+    public Cliente(String nome, String telefone, String email, String morada, int nuitCliente) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -30,7 +59,7 @@ public class Clientes {
         this.nuitCliente = nuitCliente;
     }
 
-    public Clientes(int id, String nome, String telefone, String email, String morada, float divida) {
+    public Cliente(int id, String nome, String telefone, String email, String morada, float divida) {
         Id = id;
         this.nome = nome;
         this.telefone = telefone;
@@ -39,7 +68,7 @@ public class Clientes {
         this.divida = divida;
     }
 
-    public Clientes(String nome, String telefone, String email, String morada, float divida) {
+    public Cliente(String nome, String telefone, String email, String morada, float divida) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -47,18 +76,18 @@ public class Clientes {
         this.divida = divida;
     }
 
-    public Clientes(String nome, String telefone, String email, String morada) {
+    public Cliente(String nome, String telefone, String email, String morada) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
         this.morada = morada;
     }
 
-    public Clientes() {
+    public Cliente() {
 
     }
 
-    public Clientes(String nome) {
+    public Cliente(String nome) {
         this.nome = nome;
     }
 
@@ -122,7 +151,7 @@ public class Clientes {
 
     @Override
     public String toString() {
-        return "Clientes{" +
+        return "Cliente{" +
                 "Id=" + Id +
                 ", nome='" + nome + '\'' +
                 ", telefone='" + telefone + '\'' +
