@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.activity.EfectuarVendasActivity;
 import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
 import com.firedevz.sistemadegestaofinanceira.modelo.Venda;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
@@ -17,33 +16,17 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class ListaVendaAdapter extends RecyclerView.Adapter<ListaVendaAdapter.ViewHolder>{
-
-    private List<Venda> vendas;
+public class ListaVendaAdapter extends RecyclerView.Adapter<ListaVendaAdapter.ViewHolder> {
 
     Context context;
     DatabaseHelper db = new DatabaseHelper(context);
+    private List<Venda> vendas;
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder  {
-        public TextView txtData, txtValorPreco, txtCliente;
-        View view;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            view = itemView;
-            txtData = itemView.findViewById(R.id.txtData);
-            txtValorPreco = itemView.findViewById(R.id.txtValorPreco);
-            txtCliente = itemView.findViewById(R.id.txtCliente);
-        }
-    }
 
     public ListaVendaAdapter(Context context, List<Venda> vendas) {
         this.vendas = vendas;
         this.context = context;
     }
-
 
     public ListaVendaAdapter(List<Venda> vendas) {
         this.vendas = vendas;
@@ -58,14 +41,28 @@ public class ListaVendaAdapter extends RecyclerView.Adapter<ListaVendaAdapter.Vi
         final Venda listItem = vendas.get(position);
         String date = new SimpleDateFormat("dd/MM/yyyy").format(listItem.getDate());
         Cliente cliente = Cliente.getById(listItem.getIdCliente());
-        holder.txtCliente.setText(cliente.getNome()+"");
+        holder.txtCliente.setText("Cliente : "+cliente.getNome() + "");
         holder.txtData.setText(date);
-        holder.txtValorPreco.setText(listItem.getPrecoTotal()+"");
+        holder.txtPreco.setText(listItem.getPrecoTotal() + "Mts");
     }
 
     @Override
     public int getItemCount() {
         return vendas.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView txtData, txtPreco, txtCliente;
+        View view;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            view = itemView;
+            txtData = itemView.findViewById(R.id.txtData);
+            txtPreco = itemView.findViewById(R.id.txtPreco);
+            txtCliente = itemView.findViewById(R.id.txtCliente);
+        }
     }
 
 

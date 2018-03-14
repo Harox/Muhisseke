@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import com.firedevz.sistemadegestaofinanceira.R;
 
 
-
-public class OportunidadeFragment extends Fragment {
+public class DicasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

@@ -129,28 +129,28 @@ public class RendimentosActivity extends AppCompatActivity {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String descricao = edtDescricao.getText().toString();
-                float valor = Float.parseFloat(edtValor.getText().toString());
-                String tipo = spnTipo.getSelectedItem().toString();
-                String data = edtData.getText().toString();
-                String contaAdicionar = spnContaAdicionar.getSelectedItem().toString();
-                float valorRendimentoConta = 0;
+                    String descricao = edtDescricao.getText().toString();
+                    float valor = Float.parseFloat(edtValor.getText().toString());
+                    String tipo = spnTipo.getSelectedItem().toString();
+                    String data = edtData.getText().toString();
+                    String contaAdicionar = spnContaAdicionar.getSelectedItem().toString();
+                    float valorRendimentoConta = 0;
 
-                if (descricao.isEmpty()) {
-                    edtDescricao.setError("campo Obrigatorio");
-                    edtValor.setError("campo Obrigatorio");
-                } else {
-                    //insert
-                    Rendimento rendimento = new Rendimento(descricao, Conta.list().get(spnContaAdicionar.getSelectedItemPosition()).getId(), valor, tipo, data, contaAdicionar);
-                    Rendimento.register(rendimento);
-                    Toast.makeText(RendimentosActivity.this, "Rendimento adicionado com Sucesso", Toast.LENGTH_LONG).show();
+                    if (descricao.isEmpty()) {
+                        edtDescricao.setError("campo Obrigatorio");
+                        edtValor.setError("campo Obrigatorio");
+                    } else {
+                        //insert
+                        Rendimento rendimento = new Rendimento(descricao, Conta.list().get(spnContaAdicionar.getSelectedItemPosition()).getId(), valor, tipo, data, contaAdicionar);
+                        Rendimento.register(rendimento);
+                        Toast.makeText(RendimentosActivity.this, "Rendimento adicionado com Sucesso", Toast.LENGTH_LONG).show();
 
-                    limpaCampos();
+                        limpaCampos();
 
-                    listaRendimentos = Rendimento.list();
-                    listaRendimentosAdapter = new ListaRendimentosAdapter(listaRendimentos);
-                    recyclerView.setAdapter(listaRendimentosAdapter);
-                }
+                        listaRendimentos = Rendimento.list();
+                        listaRendimentosAdapter = new ListaRendimentosAdapter(listaRendimentos);
+                        recyclerView.setAdapter(listaRendimentosAdapter);
+                    }
             }
         });
 

@@ -55,10 +55,10 @@ public class ActivityRelatorios extends AppCompatActivity {
         relatorioDespesaFragment = new RelatorioDespesaFragment();
         relatorioVendaFragment = new RelatorioVendaFragment();
 
-        edtDataInicio = (EditText)findViewById(R.id.edtDataInicio);
-        edtDataFim = (EditText)findViewById(R.id.edtDataFim);
-        btnVerRelatorio = (Button) findViewById(R.id.btnVerRelatorio);
-        spnTipoRelatorio = (Spinner) findViewById(R.id.spnTipoRelatorio);
+        edtDataInicio = findViewById(R.id.edtDataInicio);
+        edtDataFim = findViewById(R.id.edtDataFim);
+        btnVerRelatorio = findViewById(R.id.btnVerRelatorio);
+        spnTipoRelatorio = findViewById(R.id.spnTipoRelatorio);
 
         edtDataInicio.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -115,15 +115,13 @@ public class ActivityRelatorios extends AppCompatActivity {
             }
         };
 
-
-
         adpTipoRelatorio = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item);
         adpTipoRelatorio.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoRelatorio.setAdapter(adpTipoRelatorio);
 
-        adpTipoRelatorio.add("Vendas");
         adpTipoRelatorio.add("Rendimentos");
         adpTipoRelatorio.add("Despesa");
+        adpTipoRelatorio.add("Vendas");
 
 
         setFragment(relatorioVendaFragment);

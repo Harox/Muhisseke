@@ -1,7 +1,5 @@
 package com.firedevz.sistemadegestaofinanceira.modelo;
 
-import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,89 +26,6 @@ public class Produto {
     String unidade;
     int estoqueMinimo;
     String nomeFornecedor;
-
-
-    public static Produto getById(int id){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        Produto produto = null;
-        for (Produto produtoAux : produtos){
-            if(produtoAux.getId()==id){
-                produto = produtoAux;
-            }
-        }
-        return produto;
-    }
-
-    public static List<Produto> list(){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        return produtos;
-    }
-
-    public static boolean register(Produto produto){
-        produto.id = java.lang.System.identityHashCode(produto);
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        produtos.add(produto);
-        Paper.book().write(PAPER_NAME, produtos);
-        return true;
-    }
-
-    public static boolean updateById(int id, Produto produto){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        int i = 0;
-        for (Produto produtoAux : produtos){
-            if(produtoAux.getId()==id){
-                produtos.set(i, produto);
-                Paper.book().write(PAPER_NAME, produtos);
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
-
-    public static boolean update(int position, Produto produto){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        produtos.set(position, produto);
-        Paper.book().write(PAPER_NAME, produtos);
-        return true;
-    }
-
-    public static boolean exists(int position){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        int  i = 0;
-        for (Produto produto: produtos) {
-            if(i == position && produto.getQuantidade() > 0){
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
-
-    public static boolean delete(int position){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        int  i = 0;
-        for (Produto produto: produtos) {
-            if(i == position){
-                produtos.remove(position);
-                Paper.book().write(PAPER_NAME, produtos);
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
-
-    public static String[] listStringArray(){
-        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
-        String[] lista = new String[produtos.size()];
-        int i =0;
-        for (Produto produto : produtos){
-            lista[i] = produto.nome;
-            i++;
-        }
-        return lista;
-    }
 
 
     public Produto() {
@@ -175,6 +90,131 @@ public class Produto {
         this.estoqueMinimo = estoqueMinimo;
         this.preco = preco;
         this.precoCompra = precoCompra;
+    }
+
+    public static Produto getById(int id) {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        Produto produto = null;
+        for (Produto produtoAux : produtos) {
+            if (produtoAux.getId() == id) {
+                produto = produtoAux;
+            }
+        }
+        return produto;
+    }
+
+    public static List<Produto> listarTodosSemStock() {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        List<Produto> produtosAux = new ArrayList<>();
+        for (Produto produto : produtos) {
+            if (produto.getQuantidade() <= 0)
+                produtosAux.add(produto);
+        }
+        return produtosAux;
+    }
+
+    public static List<Produto> listarTodosComStockMinimo() {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        List<Produto> produtosAux = new ArrayList<>();
+        for (Produto produto : produtos) {
+            if (produto.getQuantidade() <= produto.estoqueMinimo && produto.getQuantidade() > 0)
+                produtosAux.add(produto);
+        }
+        return produtosAux;
+    }
+
+    public static List<Produto> listarTodosExpirados() {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        List<Produto> produtosAux = new ArrayList<>();
+        for (Produto produto : produtos) {
+            if (produto.getPrazo().before(Calendar.getInstance().getTime()))
+                produtosAux.add(produto);
+        }
+        return produtosAux;
+    }
+
+    public static List<Produto> listarTodosComPrazoDentroDeUmMes() {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        List<Produto> produtosAux = new ArrayList<>();
+        for (Produto produto : produtos) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, 1);
+            if (produto.getPrazo().before(calendar.getTime()))
+                if (produto.getPrazo().after(Calendar.getInstance().getTime()))
+                    produtosAux.add(produto);
+        }
+        return produtosAux;
+    }
+
+    public static List<Produto> list() {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        return produtos;
+    }
+
+    public static boolean register(Produto produto) {
+        produto.id = java.lang.System.identityHashCode(produto);
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        produtos.add(produto);
+        Paper.book().write(PAPER_NAME, produtos);
+        return true;
+    }
+
+    public static boolean updateById(int id, Produto produto) {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        int i = 0;
+        for (Produto produtoAux : produtos) {
+            if (produtoAux.getId() == id) {
+                produtos.set(i, produto);
+                Paper.book().write(PAPER_NAME, produtos);
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
+    public static boolean update(int position, Produto produto) {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        produtos.set(position, produto);
+        Paper.book().write(PAPER_NAME, produtos);
+        return true;
+    }
+
+    public static boolean exists(int position) {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        int i = 0;
+        for (Produto produto : produtos) {
+            if (i == position && produto.getQuantidade() > 0) {
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
+    public static boolean delete(int position) {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        int i = 0;
+        for (Produto produto : produtos) {
+            if (i == position) {
+                produtos.remove(position);
+                Paper.book().write(PAPER_NAME, produtos);
+                return true;
+            }
+            i++;
+        }
+        return false;
+    }
+
+    public static String[] listStringArray() {
+        List<Produto> produtos = Paper.book().read(PAPER_NAME, new ArrayList<Produto>());
+        String[] lista = new String[produtos.size()];
+        int i = 0;
+        for (Produto produto : produtos) {
+            lista[i] = produto.nome;
+            i++;
+        }
+        return lista;
     }
 
     public String getNomeFornecedor() {

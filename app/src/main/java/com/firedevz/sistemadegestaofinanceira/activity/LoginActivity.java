@@ -16,6 +16,7 @@ import com.firedevz.sistemadegestaofinanceira.LoginGmail;
 import com.firedevz.sistemadegestaofinanceira.MenuPrincipal;
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.ResetSenha;
+import com.firedevz.sistemadegestaofinanceira.activities20.MenuActivity;
 import com.firedevz.sistemadegestaofinanceira.modelo.Usuario;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String telefone = edtTelefoneLogin.getText().toString();
                 String email = edtTelefoneLogin.getText().toString();
                 if (Usuario.login(telefone, email)) {
-                    Intent intent = new Intent(getApplicationContext(), MenuPrincipal.class);
+                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -3,13 +3,11 @@
     package="com.firedevz.sistemadegestaofinanceira">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
-        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -74,6 +72,14 @@
         <activity
             android:name=".activity.RequisicoesActivity"
             android:label="@string/title_activity_requisicoes"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.MenuActivity"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.ProducaoActivity"
+            android:label="@string/title_activity_producao"
             android:theme="@style/AppTheme"></activity>
     </application>
 

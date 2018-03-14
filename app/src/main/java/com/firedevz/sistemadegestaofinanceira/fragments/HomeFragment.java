@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
         btnProducao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(),ProducaoActivity.class);
+                Intent i = new Intent(getContext(), com.firedevz.sistemadegestaofinanceira.activities20.ProducaoActivity.class);
                 startActivity(i);
             }
         });

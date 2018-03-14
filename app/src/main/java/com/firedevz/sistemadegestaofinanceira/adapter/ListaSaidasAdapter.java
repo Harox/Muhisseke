@@ -29,7 +29,7 @@ public class ListaSaidasAdapter extends RecyclerView.Adapter<ListaSaidasAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder  {
         public TextView txtDscricaoDespesa, txtValorDespesa, txtTipoDespesa;
-        private LinearLayout listaDespesas;
+        private View view;
 
 
 
@@ -39,7 +39,7 @@ public class ListaSaidasAdapter extends RecyclerView.Adapter<ListaSaidasAdapter.
             txtDscricaoDespesa = (TextView) itemView.findViewById(R.id.txtDscricaoDespesa);
             txtValorDespesa = (TextView) itemView.findViewById(R.id.txtValorDespesa);
             txtTipoDespesa = (TextView) itemView.findViewById(R.id.txtTipoDespesa);
-            listaDespesas = (LinearLayout) itemView.findViewById(R.id.listaDespesas);
+            view = itemView;
         }
 
     }
@@ -65,7 +65,7 @@ public class ListaSaidasAdapter extends RecyclerView.Adapter<ListaSaidasAdapter.
 
         final String nome = listItem.getDescricao_despesa();
 
-        holder.listaDespesas.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context,"data", Toast.LENGTH_LONG).show();

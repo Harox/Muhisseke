@@ -78,7 +78,7 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         listaProdutos = Produto.list();
-        listaProdutosAdapter = new ListaProdutosAdapter(this, listaProdutos);
+        listaProdutosAdapter = new ListaProdutosAdapter(this, listaProdutos, 0);
         recyclerView.setAdapter(listaProdutosAdapter);
 
         BtnAdicionarProdut.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +180,7 @@ public class activityListaProdutos extends AppCompatActivity implements SearchVi
                             Toast.makeText(activityListaProdutos.this, "ProdutoVenda adicionado com Sucesso", Toast.LENGTH_LONG).show();
 
                             listaProdutos = Produto.list();
-                            listaProdutosAdapter = new ListaProdutosAdapter(activityListaProdutos.this, listaProdutos);
+                            listaProdutosAdapter = new ListaProdutosAdapter(activityListaProdutos.this, listaProdutos, 0);
                             recyclerView.setAdapter(listaProdutosAdapter);
 
                         }

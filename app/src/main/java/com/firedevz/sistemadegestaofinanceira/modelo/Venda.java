@@ -36,6 +36,39 @@ public class Venda {
         this.tipoVenda = tipoVenda;
     }
 
+    public static double getAllIncome() {
+        double income = 0;
+        List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
+        for (Venda venda : vendas) {
+            income = income + venda.getPrecoTotal();
+        }
+        return income;
+    }
+
+    public static List<ProdutoVenda> getProdutosMaisVendidos() {
+        List<ProdutoVenda> produtoVendas = new ArrayList<>();
+        List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
+        for (Venda venda : vendas) {
+            for (ProdutoVenda produto : venda.getProdutoVendas()) {
+                Log.d("produtos", produto.nome);
+                boolean wasAdded = false;
+                int i = 0;
+                for (ProdutoVenda produtoAux : produtoVendas) {
+                    if(produtoAux.idProduto==produto.idProduto){
+                        produtoAux.quantidade = produtoAux.quantidade + produto.quantidade;
+                        produtoVendas.set(i, produtoAux);
+                        wasAdded = true;
+                        break;
+                    }
+                    i++;
+                }
+                if (!wasAdded)
+                    produtoVendas.add(produto);
+            }
+        }
+        return produtoVendas;
+    }
+
     public static List<Venda> list() {
         List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
         return vendas;

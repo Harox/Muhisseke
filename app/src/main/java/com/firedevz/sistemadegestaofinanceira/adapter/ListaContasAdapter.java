@@ -29,6 +29,7 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
 
     Context context;
     DatabaseHelper db = new DatabaseHelper(context);
+    boolean canEdit;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtNomeConta, txtSaldoConta, txtTipoConta;
@@ -48,9 +49,10 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
     }
 
 
-    public ListaContasAdapter(Context context, List<Conta> contas) {
+    public ListaContasAdapter(Context context, List<Conta> contas, boolean canEdit) {
         this.cotas = contas;
         this.context = context;
+        this.canEdit = canEdit;
     }
 
     @Override
@@ -62,58 +64,61 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Conta listItem = cotas.get(position);
         holder.txtNomeConta.setText(listItem.getNomeConta());
-        holder.txtSaldoConta.setText(listItem.getValorConta() + "MT");
-        holder.txtTipoConta.setText(listItem.getTipoConta()+"");
+        holder.txtSaldoConta.setText(listItem.getValorConta() + " MT");
+        holder.txtTipoConta.setText("Tipo: "+listItem.getTipoConta()+"");
 
 
 
         final String nome = listItem.getNomeConta();
 
-        holder.listaContas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(context,"data", Toast.LENGTH_LONG).show();
+        if(canEdit){
+            holder.listaContas.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Toast.makeText(context,"data", Toast.LENGTH_LONG).show();
 
-                LayoutInflater li = LayoutInflater.from(context);
-                View vi = li.inflate(R.layout.popup_contas, null);
-                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    LayoutInflater li = LayoutInflater.from(context);
+                    View vi = li.inflate(R.layout.popup_contas, null);
+                    final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
-                // set prompts.xml to alertdialog builder
-                alertDialogBuilder.setView(vi);
+                    // set prompts.xml to alertdialog builder
+                    alertDialogBuilder.setView(vi);
 
-                final EditText nomeConta = (EditText) vi.findViewById(R.id.edtNomePopupConta);
-                final EditText saldoConta = (EditText) vi.findViewById(R.id.edtSaldoPopupConta);
+                    final EditText nomeConta = (EditText) vi.findViewById(R.id.edtNomePopupConta);
+                    final EditText saldoConta = (EditText) vi.findViewById(R.id.edtSaldoPopupConta);
 
-                Toast.makeText(context, listItem.getNomeConta(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, listItem.getNomeConta(), Toast.LENGTH_SHORT).show();
 
-                nomeConta.setText(listItem.getNomeConta() +"");
-                saldoConta.setText(listItem.getValorConta() +"");
+                    nomeConta.setText(listItem.getNomeConta() +"");
+                    saldoConta.setText(listItem.getValorConta() +"");
 
 
-                // set dialog message
-                alertDialogBuilder.setCancelable(false).setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String nomeAccount = nomeConta.getText().toString();
-                        float saldoAccount = Float.parseFloat(saldoConta.getText().toString());
+                    // set dialog message
+                    alertDialogBuilder.setCancelable(false).setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            String nomeAccount = nomeConta.getText().toString();
+                            float saldoAccount = Float.parseFloat(saldoConta.getText().toString());
 
-                        String nome_conf = listItem.getNomeConta();
-                        if (db.actualizaConta(nome_conf, nomeAccount, saldoAccount)) {
-                            Toast.makeText(context, "Conta Actualizada", Toast.LENGTH_SHORT).show();
+                            String nome_conf = listItem.getNomeConta();
+                            if (db.actualizaConta(nome_conf, nomeAccount, saldoAccount)) {
+                                Toast.makeText(context, "Conta Actualizada", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
 
-                // Criar O Alerta
-                AlertDialog alertDialog = alertDialogBuilder.create();
+                    // Criar O Alerta
+                    AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // Mostra o alerta
-                alertDialog.show();
-            }
-        });
+                    // Mostra o alerta
+                    alertDialog.show();
+                }
+            });
+        }
+
     }
 
     @Override

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,19 +16,18 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.firedevz.sistemadegestaofinanceira.activity.ActivityFornecedores;
-
 import com.firedevz.sistemadegestaofinanceira.activity.LoginActivity;
+import com.firedevz.sistemadegestaofinanceira.fragments.GraficosFragment;
 import com.firedevz.sistemadegestaofinanceira.fragments.HomeFragment;
 import com.firedevz.sistemadegestaofinanceira.fragments.NotificacoesFragment;
-import com.firedevz.sistemadegestaofinanceira.fragments.OportunidadeFragment;
 
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     //private FirebaseAuth mAuth;
-    private Button btnFundos,btnVendas,btnProdutos,btnClientes,btnProducao,btnRelatorio;
+    private Button btnFundos, btnVendas, btnProdutos, btnClientes, btnProducao, btnRelatorio;
 
 
-    private OportunidadeFragment oportunidadeFragment;
+    private GraficosFragment graficosFragment;
     private NotificacoesFragment notificacoesFragment;
     private HomeFragment homeFragment;
 
@@ -38,7 +37,7 @@ public class MenuPrincipal extends AppCompatActivity
         setContentView(R.layout.activity_menu_principal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        oportunidadeFragment = new OportunidadeFragment();
+        graficosFragment = new GraficosFragment();
         notificacoesFragment = new NotificacoesFragment();
         homeFragment = new HomeFragment();
 
@@ -73,7 +72,7 @@ public class MenuPrincipal extends AppCompatActivity
                                 break;
 
                             case R.id.navigation_oportunites:
-                                setFragment(oportunidadeFragment);
+                                setFragment(graficosFragment);
                                 break;
 
                             case R.id.navigation_notifications:
@@ -93,37 +92,12 @@ public class MenuPrincipal extends AppCompatActivity
     }
 
 
-////        bottomBar.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-////            @Override
-////            public void onNavigationItemReselected(@NonNull MenuItem item) {
-////                switch (item.getItemId()) {
-////                    case R.id.navigation_home:
-////                        setFragment(homeFragment);
-////
-////                    case R.id.navigation_oportunites:
-////                        setFragment(oportunidadeFragment);
-////
-////                    case R.id.navigation_notifications:
-////                        setFragment(notificacoesFragment);
-////
-////                    default:
-////                        break;
-////                }
-////
-////            }
-////        });
-//    }
-
-
     //METODO DE TRASICAO DE FRAGEMENTS
     private void setFragment(android.support.v4.app.Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
-
-
-
 
 
     @Override
@@ -166,7 +140,7 @@ public class MenuPrincipal extends AppCompatActivity
 
         if (id == R.id.nav_menu) {
         } else if (id == R.id.nav_fornecedores) {
-            Intent i = new Intent(getApplicationContext(),ActivityFornecedores.class);
+            Intent i = new Intent(getApplicationContext(), ActivityFornecedores.class);
             startActivity(i);
         } else if (id == R.id.nav_configuracoes) {
 
@@ -174,8 +148,8 @@ public class MenuPrincipal extends AppCompatActivity
 
         } else if (id == R.id.nav_sobre) {
 
-        }else if (id == R.id.nav_sair) {
-            Intent i = new Intent(getApplicationContext(),LoginActivity.class);
+        } else if (id == R.id.nav_sair) {
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(i);
         }
 

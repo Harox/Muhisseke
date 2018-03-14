@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.modelo.Produto;
-import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -28,19 +27,34 @@ import java.util.List;
 
 public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder> {
 
-//    DatabaseHelper db;
+    public static final int PRODUTOS_SEM_STOCK = 1;
+    public static final int PRODUTOS_COM_POUCO_STOCK = 2;
+    public static final int PRODUTOS_FORA_PRAZO = 3;
+    public static final int PRODUTOS_PRESTES_A_EXPIRAR = 4;
+    //    DatabaseHelper db;
     Context context;
     View vi;
     LayoutInflater li;
+    int type;
     private List<Produto> produtos;
 
     public ListaProdutosAdapter(List<Produto> produtos) {
         this.produtos = produtos;
     }
 
-    public ListaProdutosAdapter(Context context, List<Produto> produtos) {
+    public ListaProdutosAdapter(Context context, List<Produto> produtos, int type) {
         this.produtos = produtos;
         this.context = context;
+        this.type = type;
+    }
+
+    public static String dateDiff(Date startDate, Date endDate) {
+
+        int diffInDays = (int)( (startDate.getTime() - endDate.getTime())
+                / (1000 * 60 * 60 * 24));
+
+
+        return "" + Math.abs(diffInDays)+ " dias";
     }
 
     @Override
@@ -55,7 +69,20 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
         holder.txtNome.setText(listItem.getNome());
         holder.txtPreco.setText(listItem.getPreco() + "MT");
         holder.txtQuantidade.setText(listItem.getQuantidade() + "");
-//        db = new DatabaseHelper(context);
+        holder.txtObs.setVisibility(View.GONE);
+        if (type == PRODUTOS_PRESTES_A_EXPIRAR) {
+            holder.txtObs.setVisibility(View.VISIBLE);
+            String dateDiff = dateDiff(Calendar.getInstance().getTime(), listItem.getPrazo());
+            holder.txtObs.setText(dateDiff);
+        }
+        if (type == PRODUTOS_COM_POUCO_STOCK) {
+            holder.txtObs.setVisibility(View.VISIBLE);
+            holder.txtObs.setText(listItem.getQuantidade() + " restantes");
+        }
+        if (type == PRODUTOS_FORA_PRAZO) {
+            holder.txtObs.setVisibility(View.VISIBLE);
+            holder.txtObs.setText("Expirou no dia "+ new SimpleDateFormat("dd/MM/yyyy").format(listItem.getPrazo()));
+        }
         holder.lnLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,17 +205,18 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtNome, txtPreco, txtQuantidade;
+        public TextView txtNome, txtPreco, txtQuantidade, txtObs;
         private LinearLayout lnLay;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtNome = (TextView) itemView.findViewById(R.id.txtListaNome);
-            txtQuantidade = (TextView) itemView.findViewById(R.id.txtListaQuantidade);
-            txtPreco = (TextView) itemView.findViewById(R.id.txtListaPreco);
-            lnLay = (LinearLayout) itemView.findViewById(R.id.listaPrpo);
+            txtNome = itemView.findViewById(R.id.txtNome);
+            txtQuantidade = itemView.findViewById(R.id.txtQuantidade);
+            txtPreco = itemView.findViewById(R.id.txtPreco);
+            txtObs = itemView.findViewById(R.id.txtObs);
+            lnLay = itemView.findViewById(R.id.lnLay);
         }
 
     }

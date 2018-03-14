@@ -2,7 +2,6 @@ package com.firedevz.sistemadegestaofinanceira.activity;
 
 
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -27,24 +26,20 @@ import java.util.List;
 
 public class ActivityListaContas extends AppCompatActivity {
 
+    Conta conta = new Conta();
     private List<Conta> listaContas = new ArrayList<>();
-    private ListaContasAdapter listaContasAdapter ;
-    private ArrayAdapter<String > adpTipoConta;
+    private ListaContasAdapter listaContasAdapter;
+    private ArrayAdapter<String> adpTipoConta;
     private RecyclerView recyclerView;
-
-    private FloatingActionButton BtnAdicionarConta;
 
 
 //    DatabaseHelper  db = new DatabaseHelper(this);
-
-    Conta conta = new Conta();
-
+    private FloatingActionButton BtnAdicionarConta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_contas);
-
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycle_lista);
@@ -53,11 +48,10 @@ public class ActivityListaContas extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         listaContas = Conta.list();
-        listaContasAdapter = new ListaContasAdapter(this,listaContas);
+        listaContasAdapter = new ListaContasAdapter(this, listaContas, true);
         recyclerView.setAdapter(listaContasAdapter);
 
         BtnAdicionarConta.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +69,7 @@ public class ActivityListaContas extends AppCompatActivity {
                 final Spinner spnTipoConta = vi.findViewById(R.id.spnTipoConta);
 
 
-                adpTipoConta = new ArrayAdapter<>(ActivityListaContas.this,android.R.layout.simple_spinner_item);
+                adpTipoConta = new ArrayAdapter<>(ActivityListaContas.this, android.R.layout.simple_spinner_item);
                 adpTipoConta.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spnTipoConta.setAdapter(adpTipoConta);
 
@@ -93,7 +87,7 @@ public class ActivityListaContas extends AppCompatActivity {
                         if (Conta.register(conta)) {
                             Toast.makeText(ActivityListaContas.this, "Conta Adicionada Com Sucesso! ", Toast.LENGTH_SHORT).show();
                             listaContas = Conta.list();
-                            listaContasAdapter = new ListaContasAdapter(ActivityListaContas.this,listaContas);
+                            listaContasAdapter = new ListaContasAdapter(ActivityListaContas.this, listaContas, true);
                             recyclerView.setAdapter(listaContasAdapter);
 
                         }
@@ -116,8 +110,6 @@ public class ActivityListaContas extends AppCompatActivity {
     }
 
 
-
-
     public void listaConta() {
 
         /*Cursor dados = db.listaTodasContas();
@@ -137,9 +129,6 @@ public class ActivityListaContas extends AppCompatActivity {
             }
         }*/
     }
-
-
-
 
 
     /////FIM /////

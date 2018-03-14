@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:activity="com.firedevz.sistemadegestaofinanceira.MenuPrincipal"
-    tools:showIn="@layout/app_bar_menu_principal"
-    android:layout_gravity="center_horizontal|center_vertical">
+    tools:activity="com.firedevz.sistemadegestaofinanceira.MenuPrincipal">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
         android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize"
         android:orientation="vertical">
-
 
         <LinearLayout
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnVendas"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="0dp"
+                android:drawableTop="@drawable/menu_vendas"
+                android:text="Vendas"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_vendas" />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnFundos"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_fundos" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -56,8 +53,7 @@
                 android:layout_height="125dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_cliente" />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnProdutos"
@@ -65,8 +61,7 @@
                 android:layout_height="125dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_produtos" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -80,8 +75,7 @@
                 android:layout_height="125dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_produca" />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnRelatorio"
@@ -89,11 +83,8 @@
                 android:layout_height="125dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/ic_relatorio" />
+                android:layout_weight="1" />
         </LinearLayout>
-
-
 
 
     </LinearLayout>

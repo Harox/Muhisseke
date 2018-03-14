@@ -33,9 +33,9 @@ public class ListaRendimentosAdapter extends RecyclerView.Adapter<ListaRendiment
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtDesccricaoRendimenti = (TextView) itemView.findViewById(R.id.txtDesccricaoRendimenti);
-            txtValorRendimento = (TextView) itemView.findViewById(R.id.txtValorRendimento);
-            txtDataRendimento = (TextView) itemView.findViewById(R.id.txtDataRendimento);
+            txtDesccricaoRendimenti = itemView.findViewById(R.id.txtDesccricaoRendimenti);
+            txtValorRendimento = itemView.findViewById(R.id.txtValorRendimento);
+            txtDataRendimento = itemView.findViewById(R.id.txtDataRendimento);
         }
 
     }

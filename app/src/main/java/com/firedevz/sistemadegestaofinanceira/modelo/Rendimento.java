@@ -20,6 +20,15 @@ public class Rendimento {
         return null;
     }
 
+    public static double getAllIncome() {
+        double income = 0;
+        List<Rendimento> rendimentos = Paper.book().read(PAPER_NAME, new ArrayList<Rendimento>());
+        for (Rendimento rendimento : rendimentos){
+            income = income + rendimento.getValor();
+        }
+        return income;
+    }
+
     public static boolean register(Rendimento rendimento){
         rendimento.id = java.lang.System.identityHashCode(rendimento);
         List<Rendimento> rendimentos = Paper.book().read(PAPER_NAME, new ArrayList<Rendimento>());

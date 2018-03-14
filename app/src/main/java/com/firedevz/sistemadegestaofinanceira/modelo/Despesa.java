@@ -22,6 +22,14 @@ public class Despesa {
         return despesas;
     }
 
+    public static double getAllIncome() {
+        double income = 0;
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        for (Despesa despesa : despesas){
+            income = income + despesa.getValor_despesa();
+        }
+        return income;
+    }
 
     public static boolean register(Despesa despesa){
         despesa.Id = java.lang.System.identityHashCode(despesa);
