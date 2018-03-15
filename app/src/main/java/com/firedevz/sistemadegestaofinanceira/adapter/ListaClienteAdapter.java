@@ -95,7 +95,7 @@ public class ListaClienteAdapter extends RecyclerView.Adapter<ListaClienteAdapte
             public void onClick(View view) {
                 Uri smsUri = Uri.parse("tel:"+listItem.getTelefone());
                 Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
-                intent.putExtra("sms_body", "sms text");
+                intent.putExtra("sms_body", "Saudações, "+listItem.getNome()+"");
                 intent.setType("vnd.android-dir/mms-sms");
                 activity.startActivity(intent);
             }

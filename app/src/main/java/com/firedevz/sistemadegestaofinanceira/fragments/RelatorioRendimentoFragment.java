@@ -1,80 +1,198 @@
 package com.firedevz.sistemadegestaofinanceira.fragments;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.support.v4.app.Fragment;
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
+import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.DatePicker;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaRendimentosAdapter;
+import com.firedevz.sistemadegestaofinanceira.modelo.Conta;
 import com.firedevz.sistemadegestaofinanceira.modelo.Rendimento;
-import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class RelatorioRendimentoFragment extends Fragment {
-    Context context;
+    RecyclerView recyclerView;
+    ListaRendimentosAdapter listaRendimentosAdapter;
+    List<Rendimento> rendimentos;
+    Button buttonDataDe;
+    Button buttonDataA;
+    Button buttonExportar;
+    Date dataA, dataDe;
+    private View view;
 
-    DatabaseHelper db = new DatabaseHelper(context);
+    public static java.util.Date getDateFromDatePicker(DatePicker datePicker) {
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year = datePicker.getYear();
 
-    private List<Rendimento> listaRendimentos = new ArrayList<>();
-    private ListaRendimentosAdapter listaRendimentosAdapter;
-    private RecyclerView recyclerView;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
 
-    ArrayAdapter<String> adapter;
-    ArrayList<String> arrayList;
-
+        return calendar.getTime();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.relatorio_rendimento_fragment, container, false);
-
-        recyclerView = (RecyclerView)view.findViewById(R.id.recycle_lista_fragment_rendimentos_relatorio);
-
-        listaRendimentosAdapter = new ListaRendimentosAdapter(listaRendimentos);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(listaRendimentosAdapter);
-
-        listaRendimentos();
+        view = inflater.inflate(R.layout.relatorio_despesas_fragment, container, false);
         return view;
     }
 
-    public void listaRendimentos() {
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        Cursor dados = db.listaTodosRendimentos();
+        recyclerView = view.findViewById(R.id.recyclerView);
+        buttonDataDe = view.findViewById(R.id.buttonDataDe);
+        buttonDataA = view.findViewById(R.id.buttonDataA);
+        buttonExportar = view.findViewById(R.id.buttonExportar);
 
-        if (dados.getCount() == 0) {
-            Toast.makeText(getContext(), "Não selecionou uma data ou Nao existem rendimntos na data selecionada", Toast.LENGTH_LONG).show();
-        } else {
-            while (dados.moveToNext()) {
-                String descricao = dados.getString(1);
-                float valor = Float.parseFloat(dados.getString(2));
-                String data = dados.getString(4);
+        rendimentos = Rendimento.list();
+        listaRendimentosAdapter = new ListaRendimentosAdapter(getActivity(), rendimentos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(listaRendimentosAdapter);
 
-                Rendimento listaiten = new Rendimento(descricao, valor, data);
-                listaRendimentos.add(listaiten);
+        buttonDataA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View dialogView = getActivity().getLayoutInflater().inflate(R.layout.pop_up_datepicker, null, false);
+                final DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+                datePicker.setMaxDate(Calendar.getInstance().getTimeInMillis());
+                new AlertDialog
+                        .Builder(getActivity())
+                        .setView(dialogView)
+                        .setNegativeButton("Cancelar", null)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dataA = getDateFromDatePicker(datePicker);
+                                buttonDataA.setText(new SimpleDateFormat("dd/MM/yyyy").format(dataA));
+                                if (dataDe != null) {
+                                    updateData();
+                                }
+                            }
+                        }).show();
             }
-        }
+        });
 
+        buttonDataDe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View dialogView = getActivity().getLayoutInflater().inflate(R.layout.pop_up_datepicker, null, false);
+                final DatePicker datePicker = dialogView.findViewById(R.id.datePicker);
+                datePicker.setMaxDate(Calendar.getInstance().getTimeInMillis());
+                new AlertDialog
+                        .Builder(getActivity())
+                        .setView(dialogView)
+                        .setNegativeButton("Cancelar", null)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dataDe = getDateFromDatePicker(datePicker);
+                                buttonDataDe.setText(new SimpleDateFormat("dd/MM/yyyy").format(dataDe));
+                                if (dataA != null) {
+                                    updateData();
+                                }
+                            }
+                        }).show();
+            }
+        });
+
+        buttonExportar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                            getActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    1);
+                        } else {
+                            exportar();
+                        }
+                    } else {
+                        exportar();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    void updateData() {
+        rendimentos = Rendimento.listByInterval(dataDe, dataA);
+        listaRendimentosAdapter = new ListaRendimentosAdapter(getActivity(), rendimentos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(listaRendimentosAdapter);
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
-    ////FIM/////
+    void exportar() throws IOException {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/Muhisseke/csvs");
+        myDir.mkdirs();
+        final File file = new File(myDir, "rendimentos_" + new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()) + ".csv");
+        file.createNewFile();
+        FileWriter fw = new FileWriter(file);
+
+        fw.append("id,");
+        fw.append("data,");
+        fw.append("valor,");
+        fw.append("descricao,");
+        fw.append("conta");
+        fw.append('\n');
+        for (Rendimento rendimento : rendimentos) {
+            Conta conta = Conta.getById(rendimento.idConta);
+            fw.append("" + rendimento.id);
+            fw.append("," + new SimpleDateFormat("dd/MM/yyyy").format(rendimento.data));
+            fw.append("," + rendimento.getValor());
+            fw.append("," + rendimento.getDescricao());
+            fw.append("," + conta.getNomeConta());
+            fw.append('\n');
+        }
+        fw.flush();
+        fw.close();
+
+        Log.d("file", file.toString());
+        Log.d("file lenght", file.length() + "");
+
+        Uri uri = Uri.fromFile(file);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(intent, "Partilhar por:"));
+    }
+
 }

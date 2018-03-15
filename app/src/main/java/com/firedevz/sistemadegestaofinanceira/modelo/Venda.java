@@ -74,6 +74,17 @@ public class Venda {
         return vendas;
     }
 
+    public static List<Venda> listByInterval(Date dateInicio, Date dateFim) {
+        List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
+        List<Venda> vendasAux = new ArrayList<>();
+        for (Venda venda : vendas) {
+            if(dateInicio.compareTo(venda.date) * venda.date.compareTo(dateFim) >= 0)
+                vendasAux.add(venda);
+        }
+        return vendasAux;
+    }
+
+
     public static List<Venda> listPendentes() {
         List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
         List<Venda> finalList = new ArrayList<>();
@@ -88,10 +99,23 @@ public class Venda {
         List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
         List<Venda> finalList = new ArrayList<>();
         for (Venda venda : vendas) {
-            if (!venda.pago)
+            if (venda.pago)
                 finalList.add(venda);
         }
-        return vendas;
+        return finalList;
+    }
+
+    public static List<Venda> setPaga(int id) {
+        List<Venda> vendas = Paper.book().read(PAPER_NAME, new ArrayList<Venda>());
+        List<Venda> finalList = new ArrayList<>();
+        for (Venda venda : vendas) {
+            if (venda.idVenda == id) {
+                venda.pago = true;
+            }
+            finalList.add(venda);
+        }
+        Paper.book().write(PAPER_NAME, finalList);
+        return finalList;
     }
 
     public static boolean register(Venda venda) {

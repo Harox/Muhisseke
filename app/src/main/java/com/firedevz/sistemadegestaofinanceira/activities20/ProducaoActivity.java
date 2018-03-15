@@ -123,7 +123,7 @@ public class ProducaoActivity extends AppCompatActivity {
         adpOpcoes.add("Incrementos Patrimoniais e indemnizações");
         adpOpcoes.add("Pensão");
         adpOpcoes.add("Outro");
-        
+
 
         spnTipo.setAdapter(adpOpcoes);
 
@@ -174,8 +174,9 @@ public class ProducaoActivity extends AppCompatActivity {
                     edtValor.setError("campo Obrigatorio");
                 } else {
                     //insert
-                    Rendimento rendimento = new Rendimento(descricao, Conta.list().get(spnContaAdicionar.getSelectedItemPosition()).getId(), valor, tipo, data, contaAdicionar);
+                    Rendimento rendimento = new Rendimento(descricao, Conta.list().get(spnContaAdicionar.getSelectedItemPosition()).getId(), valor, tipo, Calendar.getInstance().getTime(), contaAdicionar);
                     Rendimento.register(rendimento);
+                    Conta.addMovRendimento(Conta.list().get(spnContaAdicionar.getSelectedItemPosition()), rendimento);
                     Toast.makeText(ProducaoActivity.this, "Rendimento adicionado com Sucesso", Toast.LENGTH_LONG).show();
                     ProducaoActivity.this.recreate();
                 }
@@ -229,8 +230,10 @@ public class ProducaoActivity extends AppCompatActivity {
                 String tipoDespesa = spnTipoDespesa.getSelectedItem().toString();
                 int contaRetirada = spnContaRetirada.getSelectedItemPosition();
                 float totalDespesaCOnta = 0;
-
-                if (Despesa.register(new Despesa(nomeDespesa, valorDespesa, tipoDespesa, contaRetirada))) {
+                Despesa despesa = new Despesa(nomeDespesa, valorDespesa, tipoDespesa, contaRetirada);
+                despesa.data = Calendar.getInstance().getTime();
+                if (Despesa.register(despesa)) {
+                    Conta.addMovDespesa(Conta.list().get(spnContaRetirada.getSelectedItemPosition()), despesa);
                     Toast.makeText(ProducaoActivity.this, "Despesa Adicionada Com Sucesso! ", Toast.LENGTH_SHORT).show();
 //                            totalDespesaCOnta = db.somaDespesaConta(contaRetirada);
                     Toast.makeText(ProducaoActivity.this, "Retirado da conta: " + contaRetirada + " " + totalDespesaCOnta + "0 MZN", Toast.LENGTH_SHORT).show();

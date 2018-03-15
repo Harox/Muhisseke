@@ -2,30 +2,28 @@ package com.firedevz.sistemadegestaofinanceira.adapter;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
-import com.firedevz.sistemadegestaofinanceira.modelo.Movimentos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Movimento;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ListaMovimentosAdapter extends RecyclerView.Adapter<ListaMovimentosAdapter.ViewHolder>  {
 
-    private List<Movimentos> movimentos;
+    private List<Movimento> movimentos;
 
     Context context;
     DatabaseHelper db = new DatabaseHelper(context);
 
-    public ListaMovimentosAdapter(List<Movimentos> movimentos) {
+    public ListaMovimentosAdapter(List<Movimento> movimentos) {
         this.movimentos = movimentos;
     }
 
@@ -47,7 +45,7 @@ public class ListaMovimentosAdapter extends RecyclerView.Adapter<ListaMovimentos
 
     }
 
-    public ListaMovimentosAdapter( Context context, List<Movimentos> movimentos) {
+    public ListaMovimentosAdapter( Context context, List<Movimento> movimentos) {
         this.movimentos = movimentos;
         this.context = context;
     }
@@ -58,11 +56,11 @@ public class ListaMovimentosAdapter extends RecyclerView.Adapter<ListaMovimentos
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Movimentos listItem = movimentos.get(position);
-        holder.txtContaMovimento.setText(listItem.getContaMovimento());
-        holder.txtValorMovimento.setText(listItem.getValorMovimento() + "MT");
-        holder.txtdataMovimento.setText(listItem.getDataMovimento()+"");
-        holder.txtTipoMovimento.setText(listItem.getTipoMovimento()+"");
+        final Movimento listItem = movimentos.get(position);
+        holder.txtContaMovimento.setText(listItem.contaMovimento);
+        holder.txtValorMovimento.setText(listItem.valorMovimento + "MT");
+        holder.txtdataMovimento.setText(new SimpleDateFormat("dd/MM/yyyy").format(listItem.dataMovimento)+"");
+        holder.txtTipoMovimento.setText(listItem.tipoMovimento+"");
 
 
     }

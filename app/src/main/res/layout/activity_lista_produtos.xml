@@ -7,29 +7,27 @@
     tools:activity="com.firedevz.sistemadegestaofinanceira.activity.activityListaProdutos">
 
 
-
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/appBarLayout">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            />
+            android:background="?attr/colorPrimary" />
 
 
     </android.support.design.widget.AppBarLayout>
 
 
     <LinearLayout
-        android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/header_lista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="?attr/actionBarSize"
         android:background="#C42178"
         android:orientation="horizontal"
         android:paddingVertical="10dp">
@@ -70,21 +68,21 @@
 
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/BtnAdicionarProdut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="20dp"
-        app:srcCompat="@drawable/ic_delete_forever"
-        android:id="@+id/floatBDeleteProduto" />
+        android:tint="@android:color/white"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/BtnAdicionarProdut"
+        android:id="@+id/floatBDeleteProduto"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/floatBDeleteProduto"
-        android:layout_toLeftOf="@+id/floatBDeleteProduto"
-        android:layout_toStartOf="@+id/floatBDeleteProduto"
+        android:layout_margin="20dp"
         app:srcCompat="@drawable/adiconaicon" />
 
 

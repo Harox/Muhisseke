@@ -1,6 +1,8 @@
 package com.firedevz.sistemadegestaofinanceira.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
+import com.firedevz.sistemadegestaofinanceira.modelo.Conta;
 import com.firedevz.sistemadegestaofinanceira.modelo.Venda;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
@@ -37,13 +40,42 @@ public class ListaVendaAdapter extends RecyclerView.Adapter<ListaVendaAdapter.Vi
         return new ListaVendaAdapter.ViewHolder(v);
     }
 
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Venda listItem = vendas.get(position);
         String date = new SimpleDateFormat("dd/MM/yyyy").format(listItem.getDate());
         Cliente cliente = Cliente.getById(listItem.getIdCliente());
-        holder.txtCliente.setText("Cliente : "+cliente.getNome() + "");
-        holder.txtData.setText(date);
-        holder.txtPreco.setText(listItem.getPrecoTotal() + "Mts");
+        if(cliente!=null){
+            holder.txtCliente.setText("Cliente : "+cliente.getNome() + "");
+            holder.txtData.setText(date);
+            holder.txtPreco.setText(listItem.getPrecoTotal() + "Mts");
+        }
+
+        if(!listItem.isPago()){
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog
+                            .Builder(holder.view.getContext())
+                            .setTitle("Deseja definir esta venda como paga?")
+                            .setNegativeButton("Não", null)
+                            .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Venda.setPaga(listItem.getIdVenda());
+                                    Conta conta = Conta.getById(listItem.getConta());
+                                    Conta.addMovVenda(conta,listItem);
+                                    removeAt(position);
+                                }
+                            }).show();
+                }
+            });
+        }
+    }
+
+    void removeAt(int position) {
+        vendas.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, vendas.size());
     }
 
     @Override

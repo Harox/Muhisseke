@@ -29,6 +29,17 @@ public class Usuario {
         return false;
     }
 
+    public static Usuario get(String telefone, String password){
+        List<Usuario> usuarios = Paper.book().read(PAPER_NAME, new ArrayList<Usuario>());
+        for (Usuario usuario: usuarios) {
+            if(usuario.telefone.equals(telefone) && usuario.senha.equals(password)){
+                Paper.book().write(LOGGED_USER, usuario);
+                return usuario;
+            }
+        }
+        return null;
+    }
+
     public static boolean exists(String telefone){
         List<Usuario> usuarios = Paper.book().read(PAPER_NAME, new ArrayList<Usuario>());
         for (Usuario usuario: usuarios) {

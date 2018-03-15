@@ -141,7 +141,7 @@ public class RendimentosActivity extends AppCompatActivity {
                         edtValor.setError("campo Obrigatorio");
                     } else {
                         //insert
-                        Rendimento rendimento = new Rendimento(descricao, Conta.list().get(spnContaAdicionar.getSelectedItemPosition()).getId(), valor, tipo, data, contaAdicionar);
+                        Rendimento rendimento = new Rendimento(descricao, Conta.list().get(spnContaAdicionar.getSelectedItemPosition()).getId(), valor, tipo, Calendar.getInstance().getTime(), contaAdicionar);
                         Rendimento.register(rendimento);
                         Toast.makeText(RendimentosActivity.this, "Rendimento adicionado com Sucesso", Toast.LENGTH_LONG).show();
 

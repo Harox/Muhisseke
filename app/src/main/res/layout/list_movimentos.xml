@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Conta"
+        android:textSize="10dp"
         android:textColor="#C42178" />
 
     <TextView
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="10dp"
         android:text="Valor"
         android:textColor="#C42178" />
 
@@ -27,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="10dp"
         android:text="Data"
         android:textColor="#C42178" />
 
@@ -35,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="10dp"
         android:text="Tipo"
         android:textColor="#C42178" />
 

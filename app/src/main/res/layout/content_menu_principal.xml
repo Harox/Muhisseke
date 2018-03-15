@@ -22,46 +22,54 @@
 
             <Button
                 android:id="@+id/btnVendas"
-                android:layout_width="0dp"
-                android:drawableTop="@drawable/menu_vendas"
-                android:text="Vendas"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@drawable/menu_vendas"
+                android:text="Vendas" />
 
             <Button
                 android:id="@+id/btnFundos"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@drawable/menu_fundos"
+                android:text="Fundos" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnClientes"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@drawable/menu_clientes"
+                android:text="Clientes" />
 
             <Button
                 android:id="@+id/btnProdutos"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
                 android:layout_gravity="center"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@drawable/menu_produtos"
+                android:text="Produtos" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,19 +79,26 @@
 
             <Button
                 android:id="@+id/btnProducao"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:layout_gravity="center_horizontal"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@drawable/menu_clientes"
+                android:text="Produção" />
 
             <Button
                 android:id="@+id/btnRelatorio"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:layout_gravity="center_horizontal"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="150dp"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:drawableTop="@drawable/menu_produtos"
+                android:text="Relatórios" />
+
         </LinearLayout>
 
 

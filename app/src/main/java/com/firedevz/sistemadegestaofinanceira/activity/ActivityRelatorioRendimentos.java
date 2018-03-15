@@ -149,7 +149,7 @@ public class ActivityRelatorioRendimentos extends AppCompatActivity {
                 float valor = Float.parseFloat(dados.getString(2));
                 String data = dados.getString(4);
 
-                Rendimento listaiten = new Rendimento(descricao, valor, data);
+                Rendimento listaiten = new Rendimento(descricao, valor, Calendar.getInstance().getTime());
                 listaRendimentos.add(listaiten);
             }
         }

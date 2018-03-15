@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnEfectuarVendas"
+        android:layout_width="306dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/btn_efectuavendas"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="110dp" />
+
+    <Button
+        android:id="@+id/btnVendasPendentes"
+        android:layout_width="306dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_vendaspendentes"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="183dp" />
+
+    <Button
+        android:id="@+id/btnHistoricoVendas"
+        android:layout_width="306dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_historicodevendas"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="241dp" />
+
+    <Button
+        android:id="@+id/btnRequisicoes"
+        android:layout_width="306dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_requisicoes"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="306dp" />
+
+</LinearLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,11 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
         holder.txtPreco.setText(listItem.getPreco() + "MT");
         holder.txtQuantidade.setText(listItem.getQuantidade() + "");
         holder.txtObs.setVisibility(View.GONE);
+
+        if(listItem.getCategoria().equals("bebidas Alcoolicas")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_pint));
+        }
+
         if (type == PRODUTOS_PRESTES_A_EXPIRAR) {
             holder.txtObs.setVisibility(View.VISIBLE);
             String dateDiff = dateDiff(Calendar.getInstance().getTime(), listItem.getPrazo());
@@ -206,12 +212,14 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtNome, txtPreco, txtQuantidade, txtObs;
+        public ImageView imageView;
         private LinearLayout lnLay;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            imageView = itemView.findViewById(R.id.imageView);
             txtNome = itemView.findViewById(R.id.txtNome);
             txtQuantidade = itemView.findViewById(R.id.txtQuantidade);
             txtPreco = itemView.findViewById(R.id.txtPreco);

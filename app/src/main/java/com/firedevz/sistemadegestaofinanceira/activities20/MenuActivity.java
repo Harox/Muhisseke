@@ -1,5 +1,6 @@
 package com.firedevz.sistemadegestaofinanceira.activities20;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -19,10 +21,13 @@ import android.widget.TextView;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.activity.EfectuarVendasActivity;
+import com.firedevz.sistemadegestaofinanceira.activity.LoginActivity;
 import com.firedevz.sistemadegestaofinanceira.fragments.DicasFragment;
 import com.firedevz.sistemadegestaofinanceira.fragments.GraficosFragment;
 import com.firedevz.sistemadegestaofinanceira.fragments.HomeFragment;
 import com.firedevz.sistemadegestaofinanceira.fragments.NotificacoesFragment;
+
+import io.paperdb.Paper;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -89,6 +94,23 @@ public class MenuActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Sair?")
+                    .setMessage("Tem a certeza que deseja sair")
+                    .setNegativeButton("Não", null)
+                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Paper.book().delete(LoginActivity.LOGGED_USER_PASSWORD);
+                            Paper.book().delete(LoginActivity.LOGGED_USER_USER_NAME);
+
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }).show();
             return true;
         }
 

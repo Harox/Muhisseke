@@ -17,21 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:padding="10dp"
         android:background="@drawable/curvo3"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <TextView
-            android:id="@+id/txtconta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/curvo_padrao"
-            android:text="@string/conta"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textColor="#ffff" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,13 +41,13 @@
             <TextView
                 android:id="@+id/txtPrecoProduto"
                 android:layout_width="wrap_content"
-                android:background="@drawable/edit_text_style"
-                android:ems="10"
-                android:textStyle="bold"
-                android:textColor="#C42178"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="00,00MZN" />
+                android:background="@drawable/edit_text_style"
+                android:ems="10"
+                android:text="00,00MZN"
+                android:textColor="#C42178"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -89,12 +78,11 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -107,57 +95,68 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/produtoVenda" />
+                    android:text="@string/produtoVenda"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtValorProdutoConta"
                     android:layout_width="match_parent"
-                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:text="@string/pre_o" />
+                    android:text="@string/pre_o"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtQuantidadeProdutoConta"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
-                    android:textStyle="bold"
-                    android:text="Qtd" />
+                    android:text="Qtd"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle_lista_conta_cliente"
-                android:textAlignment="center"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center">
 
             </android.support.v7.widget.RecyclerView>
 
+
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnPagar"
-                android:layout_width="153dp"
-                android:layout_height="45dp"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/botao_pagar" />
+                android:text="Pagar" />
 
             <Button
                 android:id="@+id/btnFacturar"
-                android:layout_width="153dp"
-                android:layout_height="45dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/botao_facturar" />
+                android:text="Facturar" />
+
         </LinearLayout>
 
     </LinearLayout>

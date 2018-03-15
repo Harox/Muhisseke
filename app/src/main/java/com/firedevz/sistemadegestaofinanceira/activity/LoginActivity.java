@@ -7,6 +7,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ import com.firedevz.sistemadegestaofinanceira.activities20.MenuActivity;
 import com.firedevz.sistemadegestaofinanceira.modelo.Usuario;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
+import io.paperdb.Paper;
+
 //import com.firedevz.sistemadegestaofinanceira.fragments.Validacoes;
 
 
@@ -29,24 +32,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     InicioActivity inicio = new InicioActivity();
     private EditText edtTelefoneLogin, edtSenhaLogin;
     private Button btnGuardarSenha, btnEntrar, btnFacebook, btnGmail;
+    private CheckBox checkbox;
     private TextView tv5, tvCriarConta;
     private TextInputLayout textInputLayoutEmail;
     private TextInputLayout textInputLayoutSenha;
     private NestedScrollView nestedScrollView;
     // private Validacoes validacoes;
-    private DatabaseHelper db;
+
+    public static String LOGGED_USER_PASSWORD = "LOGGED_USER_PASSWORD";
+    public static String LOGGED_USER_USER_NAME = "LOGGED_USER_USER_NAME";
+    public static String LOGGED_USER= "LOGGED_USER";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         inicializaComponentes();
         eventoClikes();
-        inicializaObjectos();
-    }
 
-    private void inicializaObjectos() {
-        db = new DatabaseHelper(activity);
-        // validacoes = new Validacoes(activity);
+        if(Paper.book().contains(LOGGED_USER_USER_NAME) && Paper.book().contains(LOGGED_USER_PASSWORD)){
+            String telefone = Paper.book().read(LOGGED_USER_USER_NAME);
+            String password = Paper.book().read(LOGGED_USER_PASSWORD);
+            if (Usuario.login(telefone, password)) {
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                if(checkbox.isChecked()){
+                    Paper.book().write(LOGGED_USER_PASSWORD, password);
+                    Paper.book().write(LOGGED_USER_USER_NAME, telefone);
+                    Paper.book().write(LOGGED_USER, Usuario.get(telefone, password));
+                }
+            }
+        }
     }
 
     private void eventoClikes() {
@@ -70,8 +89,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void inicializaComponentes() {
         edtTelefoneLogin = (EditText) findViewById(R.id.edtTelefoneLogin);
         edtSenhaLogin = (EditText) findViewById(R.id.edtSenhaLogin);
+        checkbox = findViewById(R.id.checkbox);
         btnEntrar = (Button) findViewById(R.id.btnEntrar);
-        btnGuardarSenha = (Button) findViewById(R.id.btnGuardarSenha);
+//        btnGuardarSenha = (Button) findViewById(R.id.btnGuardarSenha);
         btnFacebook = (Button) findViewById(R.id.btnFacebook);
         btnGmail = (Button) findViewById(R.id.btnGmail);
         tv5 = (TextView) findViewById(R.id.tv5);
@@ -84,9 +104,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.btnEntrar:
                 String telefone = edtTelefoneLogin.getText().toString();
-                String email = edtTelefoneLogin.getText().toString();
-                if (Usuario.login(telefone, email)) {
+                String password = edtSenhaLogin.getText().toString();
+                if (Usuario.login(telefone, password)) {
                     Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                    if(checkbox.isChecked()){
+                        Paper.book().write(LOGGED_USER_PASSWORD, password);
+                        Paper.book().write(LOGGED_USER_USER_NAME, telefone);
+                    }
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -112,19 +136,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Intent it3 = new Intent(getApplicationContext(), ResetSenha.class);
                 startActivity(it3);
                 break;
-        }
-    }
-
-    private void verifyFromSQLite() {
-
-        if (db.verificaUsuario(edtTelefoneLogin.getText().toString().trim()
-                , edtSenhaLogin.getText().toString().trim())) {
-            Intent it = new Intent(getApplicationContext(), MenuPrincipal.class);
-            startActivity(it);
-        } else {
-            //    Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show;
-            Toast.makeText(LoginActivity.this, "Celular ou Senha Incorrectos, verifique e tente novamente", Toast.LENGTH_LONG).show();
-            emptyInputEdt();
         }
     }
 

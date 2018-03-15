@@ -3,6 +3,8 @@
     package="com.firedevz.sistemadegestaofinanceira">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -80,6 +82,38 @@
         <activity
             android:name=".activities20.ProducaoActivity"
             android:label="@string/title_activity_producao"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.OpcoesVendasActivity"
+            android:label="@string/title_activity_vendas"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.OpcoesVendas2Activity"
+            android:label="@string/title_activity_opcoes_vendas2"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.EfectuarVendaActivity"
+            android:label="@string/title_activity_efectuar_venda"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.VendasPendentes2Activity"
+            android:label="@string/title_activity_vendas_pendentes2"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.HistoricoVendasActivity"
+            android:label="@string/title_activity_historico_vendas"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.Fundos2Activity"
+            android:label="@string/title_activity_movimentos"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.ContasActivity"
+            android:label="@string/title_activity_contas"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities20.RelatoriosActivity"
+            android:label="@string/title_activity_relatorios"
             android:theme="@style/AppTheme"></activity>
     </application>
 

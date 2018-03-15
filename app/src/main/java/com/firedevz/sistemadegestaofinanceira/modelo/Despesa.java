@@ -2,6 +2,7 @@ package com.firedevz.sistemadegestaofinanceira.modelo;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -15,29 +16,8 @@ public class Despesa {
     private String descricao_despesa;
     private float valor_despesa;
     private String tipo_despesa;
+    public Date data;
     private int conta_Retirada;
-
-    public static List<Despesa> list(){
-        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
-        return despesas;
-    }
-
-    public static double getAllIncome() {
-        double income = 0;
-        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
-        for (Despesa despesa : despesas){
-            income = income + despesa.getValor_despesa();
-        }
-        return income;
-    }
-
-    public static boolean register(Despesa despesa){
-        despesa.Id = java.lang.System.identityHashCode(despesa);
-        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
-        despesas.add(despesa);
-        Paper.book().write(PAPER_NAME, despesas);
-        return true;
-    }
 
     public Despesa() {
     }
@@ -61,6 +41,38 @@ public class Despesa {
         this.valor_despesa = valor_despesa;
         this.tipo_despesa = tipo_despesa;
         this.conta_Retirada = contaRetirada;
+    }
+
+    public static List<Despesa> list() {
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        return despesas;
+    }
+
+    public static List<Despesa> listByInterval(Date dateInicio, Date dateFim) {
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        List<Despesa> despesasAux = new ArrayList<>();
+        for (Despesa despesa : despesas) {
+            if(despesa.data.after(dateInicio) && despesa.data.before(dateFim))
+                despesasAux.add(despesa);
+        }
+        return despesasAux;
+    }
+
+    public static double getAllIncome() {
+        double income = 0;
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        for (Despesa despesa : despesas) {
+            income = income + despesa.getValor_despesa();
+        }
+        return income;
+    }
+
+    public static boolean register(Despesa despesa) {
+        despesa.Id = java.lang.System.identityHashCode(despesa);
+        List<Despesa> despesas = Paper.book().read(PAPER_NAME, new ArrayList<Despesa>());
+        despesas.add(despesa);
+        Paper.book().write(PAPER_NAME, despesas);
+        return true;
     }
 
     public int getId_despesa() {

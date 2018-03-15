@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.firedevz.sistemadegestaofinanceira.R;
+import com.firedevz.sistemadegestaofinanceira.modelo.Cliente;
 import com.firedevz.sistemadegestaofinanceira.modelo.Conta;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import io.paperdb.Paper;
 
 public class InicioActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 2000;
     public ProgressDialog mProgressDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,12 @@ public class InicioActivity extends AppCompatActivity {
             conta.setTipoConta("Caixa");
             conta.setValorConta(0);
             Conta.register(conta);
+
+            Cliente cliente = new Cliente();
+            cliente.setId(0);
+            cliente.setNome("Não definido");
+            cliente.setNuitCliente(0);
+            Cliente.register(cliente);
         }
         new Handler().postDelayed(new Runnable() {
             @Override

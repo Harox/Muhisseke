@@ -2,6 +2,7 @@ package com.firedevz.sistemadegestaofinanceira.modelo;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.paperdb.Paper;
@@ -42,15 +43,25 @@ public class Rendimento {
         return rendimentos;
     }
 
-    int id;
-    int idConta;
+    public static List<Rendimento> listByInterval(Date dateInicio, Date dateFim) {
+        List<Rendimento> rendimentos = Paper.book().read(PAPER_NAME, new ArrayList<Rendimento>());
+        List<Rendimento> rendimentosAux = new ArrayList<>();
+        for (Rendimento rendimento : rendimentos) {
+            if(rendimento.data.after(dateInicio) && rendimento.data.before(dateFim))
+                rendimentosAux.add(rendimento);
+        }
+        return rendimentosAux;
+    }
+
+    public int id;
+    public int idConta;
     String descricao;
     double valor;
     String tipo;
-    String data;
+    public Date data;
     String ContaAdicionada;
 
-    public Rendimento(String descricao, int idConta, double valor, String tipo, String data, String contaAdicionada) {
+    public Rendimento(String descricao, int idConta, double valor, String tipo, Date data, String contaAdicionada) {
         this.descricao = descricao;
         this.valor = valor;
         this.tipo = tipo;
@@ -59,7 +70,7 @@ public class Rendimento {
         ContaAdicionada = contaAdicionada;
     }
 
-    public Rendimento(String descricao, double valor, String tipo, String data) {
+    public Rendimento(String descricao, double valor, String tipo, Date data) {
         this.descricao = descricao;
         this.tipo = tipo;
         this.data = data;
@@ -71,7 +82,7 @@ public class Rendimento {
 
     }
 
-    public Rendimento(String descricao, double valor, String data) {
+    public Rendimento(String descricao, double valor, Date data) {
         this.descricao = descricao;
         this.valor = valor;
         this.data = data;
@@ -93,11 +104,11 @@ public class Rendimento {
         this.descricao = descricao;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 

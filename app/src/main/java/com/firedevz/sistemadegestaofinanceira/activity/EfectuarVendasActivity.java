@@ -46,12 +46,13 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
     //    DatabaseHelper db = new DatabaseHelper(this);
     private ListView lstConta, lstProdutos;
     private Button btnPagar, btnFacturar, btnAdicionarAconta;
-    private TextView txtconta;
     private ArrayAdapter<String> adpMetodoPagamento;
     private EditText edtQuantidade;
     private AutoCompleteTextView edtNomeProdutoApgar;
     private int total;
     private TextView txtPrecoProduto;
+    private TextView counter_text;
+    private TextView textViewTotal;
     private float precoProduto;
     private int idProduto;
     private int nuitCliente;
@@ -77,8 +78,9 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
 
         btnPagar = findViewById(R.id.btnPagar);
         btnFacturar = findViewById(R.id.btnFacturar);
-        //lstConta = (ListView) findViewById(R.id.lstConta);
-        txtconta = findViewById(R.id.txtconta);
+        counter_text = findViewById(R.id.counter_text);
+        textViewTotal = findViewById(R.id.textViewTotal);
+
         btnAdicionarAconta = findViewById(R.id.btnAdicionarAconta);
         edtQuantidade = findViewById(R.id.edtQuantidade);
         txtPrecoProduto = findViewById(R.id.txtPrecoProduto);
@@ -89,6 +91,9 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar_vendas);
 
         edtNomeProdutoApgar = findViewById(R.id.edtNomeProdutoApgar);
+
+        counter_text.setText("Efectuar venda");
+
 
         listaProdutos = Produto.list();
         edtNomeProdutoApgar.setThreshold(1);
@@ -145,6 +150,13 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
                     listaProdutosNaConta.add(new ContaCliente(produto, precoProduto, quantidade));
                     listaContaClienteAdapter = new ListaContaClienteAdapter(venda.getProdutoVendas());
                     recyclerView.setAdapter(listaContaClienteAdapter);
+
+                    double total = 0;
+                    for (Venda.ProdutoVenda produtoVenda : venda.getProdutoVendas()) {
+                        total = total + (produtoVenda.quantidade * produtoVenda.preco);
+                    }
+                    Log.d("DEBUG", total+"Mts");
+                    textViewTotal.setText(total+" Mts");
 
                     Toast.makeText(EfectuarVendasActivity.this, "ProdutoVenda adicionado a Lista", Toast.LENGTH_LONG).show();
 
@@ -289,6 +301,7 @@ public class EfectuarVendasActivity extends AppCompatActivity implements View.On
 
     void limpaCampos() {
         edtNomeProdutoApgar.setText("");
+        txtPrecoProduto.setText("");
         edtQuantidade.setText("");
         edtNomeProdutoApgar.requestFocus();
     }

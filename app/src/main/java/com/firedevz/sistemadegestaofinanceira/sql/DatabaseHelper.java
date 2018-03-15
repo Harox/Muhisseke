@@ -733,7 +733,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUNA_DESCRICAO_RENDIMENTO, rendimento.getDescricao());
         values.put(COLUNA_VALOR_RENDIMETNO, rendimento.getValor());
         values.put(COLUNA_TIPO_RENDIMENTO,rendimento.getTipo()) ;
-        values.put(COLUNA_DATA_RENDIMENO,rendimento.getData()) ;
+//        values.put(COLUNA_DATA_RENDIMENO,rendimento.getData()) ;
         values.put(COLUNA_CONTA_ADICIONADA,rendimento.getContaAdicionada()) ;
 
         long verficainsert = db.insert(TABELA_RENDIMENTO, null, values);
@@ -745,7 +745,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         rendimento1.setDescricao(cursor.getString(0));
         rendimento1.setValor(cursor.getDouble(1));
         rendimento1.setTipo(cursor.getString(2));
-        rendimento1.setData(cursor.getString(3));
+//        rendimento1.setData(cursor.getString(3));
         rendimento1.setContaAdicionada(cursor.getString(4));
         cursor.close();
         db.close();
@@ -1177,7 +1177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    //Metodo Lista Movimentos
+    //Metodo Lista Movimento
     public Cursor listaTodosMovimentos() {
         String query = "SELECT * FROM " + TABELA_MOVIMENTOS;
         SQLiteDatabase db = this.getWritableDatabase();

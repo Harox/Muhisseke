@@ -40,7 +40,7 @@ public class ProcuraClienteAdapter extends ArrayAdapter<Cliente> {
         View view = convertView;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.linha_categoria, parent, false);
+            view = inflater.inflate(textViewResourceId, parent, false);
         }
         Cliente cliente = items.get(position);
         if (cliente != null) {

@@ -62,9 +62,16 @@
     <string name="conta">Conta</string>
     <string name="title_activity_testado">testado</string>
     <string name="title_activity_feito">feito</string>
-    <string name="title_activity_requisicoes">RequisicoesActivity</string>
+    <string name="title_activity_requisicoes">Requisições</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
     <string name="tab_text_3">Tab 3</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_opcoes_vendas2">Vendas</string>
+    <string name="title_activity_efectuar_venda">Efectuar Venda</string>
+    <string name="title_activity_vendas_pendentes2">Vendas Pendentes</string>
+    <string name="title_activity_historico_vendas">Histótico</string>
+    <string name="title_activity_movimentos">Movimentos</string>
+    <string name="title_activity_contas">ContasActivity</string>
+    <string name="title_activity_relatorios">RelatoriosActivity</string>
 </resources>

@@ -10,13 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firedevz.sistemadegestaofinanceira.R;
 import com.firedevz.sistemadegestaofinanceira.adapter.ListaMovimentosAdapter;
-import com.firedevz.sistemadegestaofinanceira.modelo.Movimentos;
+import com.firedevz.sistemadegestaofinanceira.modelo.Movimento;
 import com.firedevz.sistemadegestaofinanceira.sql.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -26,9 +25,8 @@ public class ActivityFundos extends AppCompatActivity {
 
     private Button btnOutrasContas;
     private TextView txSaldoCaixa;
-    private ListView lstMovimentos;
 
-    private List<Movimentos> listaMovimentos = new ArrayList<>();
+    private List<Movimento> listaMovimentos = new ArrayList<>();
     private ListaMovimentosAdapter listaMovimentosAdapter ;
     private RecyclerView recyclerView;
 
@@ -83,8 +81,8 @@ public class ActivityFundos extends AppCompatActivity {
                 String data = dados.getString(3);
                 String tipo = dados.getString(4);
 
-                Movimentos listaiten = new Movimentos(conta, valor, data,tipo);
-                listaMovimentos.add(listaiten);
+//                Movimento listaiten = new Movimento(conta, valor, data,tipo);
+//                listaMovimentos.add(listaiten);
             }
         }
     }
