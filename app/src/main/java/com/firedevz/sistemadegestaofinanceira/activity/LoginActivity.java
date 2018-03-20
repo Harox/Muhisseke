@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(checkbox.isChecked()){
                         Paper.book().write(LOGGED_USER_PASSWORD, password);
                         Paper.book().write(LOGGED_USER_USER_NAME, telefone);
+                        Paper.book().write(LOGGED_USER, Usuario.get(telefone, password));
                     }
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);

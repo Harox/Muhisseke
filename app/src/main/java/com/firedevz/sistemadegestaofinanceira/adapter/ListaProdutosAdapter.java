@@ -72,9 +72,26 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
         holder.txtQuantidade.setText(listItem.getQuantidade() + "");
         holder.txtObs.setVisibility(View.GONE);
 
-        if(listItem.getCategoria().equals("bebidas Alcoolicas")){
+        if(listItem.getCategoria().equalsIgnoreCase("Bebidas Alcoolicas")){
             holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_pint));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Bebidas não Alcoolicas")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_juice));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Fruta")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_cherry));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Mariscos")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_fish));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Carnes")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_meat));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Vegetais")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_vegetables));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Cereais")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_rice));
+        }else if(listItem.getCategoria().equalsIgnoreCase("Doces e salgados")){
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_cookies));
+        }else {
+            holder.imageView.setImageDrawable(holder.imageView.getResources().getDrawable(R.drawable.ic_package));
         }
+
 
         if (type == PRODUTOS_PRESTES_A_EXPIRAR) {
             holder.txtObs.setVisibility(View.VISIBLE);
@@ -148,7 +165,7 @@ public class ListaProdutosAdapter extends RecyclerView.Adapter<ListaProdutosAdap
                         alertDialogBuilder.setCancelable(false).setPositiveButton("Actualizar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 String nomePro = nomeProduto.getText().toString();
-                                int quantPro = Integer.parseInt(quantProduto.getText().toString());
+                                double quantPro = Double.parseDouble(quantProduto.getText().toString());
                                 float PrecoPro = Float.parseFloat(precoProduto.getText().toString());
                                 String prazoPro = prazoProduto.getText().toString();
 

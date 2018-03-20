@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,17 +34,21 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtNomeConta, txtSaldoConta, txtTipoConta;
-        private LinearLayout listaContas;
+//        private LinearLayout listaContas;
+        ImageView imageConta;
+        View view;
 
 
 
         public ViewHolder(View itemView) {
             super(itemView);
 
+            view = itemView;
+            imageConta = itemView.findViewById(R.id.imageConta);
             txtNomeConta = (TextView) itemView.findViewById(R.id.txtNomeConta);
             txtSaldoConta = (TextView) itemView.findViewById(R.id.txtSaldoConta);
             txtTipoConta = (TextView) itemView.findViewById(R.id.txtTipoConta);
-            listaContas = (LinearLayout) itemView.findViewById(R.id.listaContas);
+//            listaContas = (LinearLayout) itemView.findViewById(R.id.listaContas);
         }
 
     }
@@ -67,12 +72,41 @@ public class ListaContasAdapter extends RecyclerView.Adapter<ListaContasAdapter.
         holder.txtSaldoConta.setText(listItem.getValorConta() + " MT");
         holder.txtTipoConta.setText("Tipo: "+listItem.getTipoConta()+"");
 
+        if(listItem.getNomeConta().equals("Caixa")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_caixa));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("BCI")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_bci));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("MOZA")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_moza));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("FNB")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_fnb));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("BARCLAYS")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_barclays));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("M-PESA")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_mpesa));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("M-KESH")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_mkesh));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("e-MOLA")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_emola));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("millennium bim")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_bim));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("STANDARD BANK")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_standardbank));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("PONTO 24")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_ponto24));
+        }else if(listItem.getNomeConta().equalsIgnoreCase("unico")){
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_unico));
+        }else {
+            holder.imageConta.setImageDrawable(holder.imageConta.getResources().getDrawable(R.mipmap.ic_conta));
+        }
+
+
 
 
         final String nome = listItem.getNomeConta();
 
         if(canEdit){
-            holder.listaContas.setOnClickListener(new View.OnClickListener() {
+            holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(context,"data", Toast.LENGTH_LONG).show();

@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Nome Produto"
+            android:text=""
             android:textColor="#fff"
             android:textSize="15dp" />
 
@@ -44,15 +44,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:text="Preco"
-            android:textColor="#fff"
+
             android:textSize="15dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.5"
-            android:text="Quanti."
+            android:text=""
             android:textColor="#fff"
             android:textSize="15dp" />
 

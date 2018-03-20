@@ -28,7 +28,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/menu_vendas"
+                android:drawableTint="@color/colorAccent"
+                android:drawableTop="@drawable/ic_shopping_cart_black_24dp"
                 android:text="Vendas" />
 
             <Button
@@ -39,7 +40,8 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/menu_fundos"
+                android:drawableTint="@color/colorAccent"
+                android:drawableTop="@drawable/ic_attach_money_black_24dp"
                 android:text="Fundos" />
 
         </LinearLayout>
@@ -57,18 +59,20 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/menu_clientes"
+                android:drawableTint="@color/colorAccent"
+                android:drawableTop="@drawable/ic_people_black_24dp"
                 android:text="Clientes" />
 
             <Button
                 android:id="@+id/btnProdutos"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="0dp"
-                android:layout_gravity="center"
                 android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/menu_produtos"
+                android:drawableTint="@color/colorAccent"
+                android:drawableTop="@drawable/ic_apps_black_24dp"
                 android:text="Produtos" />
         </LinearLayout>
 
@@ -85,18 +89,20 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/menu_clientes"
+                android:drawableTint="@color/colorAccent"
+                android:drawableTop="@drawable/ic_show_chart_black_24dp"
                 android:text="Produção" />
 
             <Button
                 android:id="@+id/btnRelatorio"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="0dp"
-                android:layout_gravity="center"
                 android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/menu_produtos"
+                android:drawableTint="@color/colorAccent"
+                android:drawableTop="@drawable/ic_insert_chart_black_24dp"
                 android:text="Relatórios" />
 
         </LinearLayout>
